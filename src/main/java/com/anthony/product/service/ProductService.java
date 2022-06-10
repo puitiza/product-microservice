@@ -1,5 +1,6 @@
 package com.anthony.product.service;
 
+import com.anthony.product.exception.handler.NoSuchElementFoundException;
 import com.anthony.product.model.dto.ProductDto;
 import com.anthony.product.model.entity.ProductEntity;
 import com.anthony.product.model.mapper.ProductMapper;
@@ -10,11 +11,11 @@ import org.springframework.stereotype.Service;
 public record ProductService(ProductRepository repository, ProductMapper productMapper) {
 
     public ProductEntity getProduct(Long id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).orElseThrow(() -> new NoSuchElementFoundException("id Not Found"));
     }
 
     public ProductEntity getProductByName(String name) {
-        return repository.findByName(name).orElse(null);
+        return repository.findByName(name).orElseThrow(() -> new NoSuchElementFoundException("id Not Found"));
     }
 
     public ProductEntity addProduct(ProductDto productDto) {
