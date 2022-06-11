@@ -17,3 +17,5 @@ spring:
     console.path: /h2-console
     console.settings.trace: false
     console.settings.web-allow-others: false
+  messages:
+    basename: lang/messages

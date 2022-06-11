@@ -8,7 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.WebRequest;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class BuildErrorResponse implements BuildStructureBody {
@@ -23,12 +28,31 @@ public class BuildErrorResponse implements BuildStructureBody {
                 && value[0].contentEquals("true");
     }
 
+    public void addTrace(GlobalErrorResponse errorResponse, Exception exception, boolean trace) {
+        if(trace){
+            var depth =(Arrays.stream(exception.getStackTrace()).count()/8);
+            var stackTrace = Arrays.stream(exception.getStackTrace()).limit(depth)
+                    .map(String::valueOf)
+                    .map(s -> "   at " + s)
+                    .collect(Collectors.joining(System.lineSeparator()));
+            String message = exception + System.lineSeparator() + stackTrace;
+            errorResponse.setDebugMessage(message);
+        }
+
+        var stackTrace2 = Arrays.stream(exception.getStackTrace()).limit(4)
+                .map(String::valueOf)
+                .collect(Collectors.toCollection(ArrayList::new));
+        errorResponse.setStackTrace(stackTrace2);
+
+        var timestamp = ZonedDateTime.now();
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm:ss z");
+        errorResponse.setTimestamp(timestamp.format(formatter2));
+    }
+
     @Override
     public ResponseEntity<Object> structure(Exception exception, String message, HttpStatus httpStatus, WebRequest request) {
         GlobalErrorResponse errorResponse = new GlobalErrorResponse(httpStatus.value(), message);
-        if (printStackTrace && isTraceOn(request)) {
-            errorResponse.setStackTrace(ExceptionUtils.getStackTrace(exception));
-        }
+        addTrace(errorResponse,exception,(printStackTrace && isTraceOn(request)));
         return ResponseEntity.status(httpStatus).body(errorResponse);
     }
 

@@ -1,10 +1,11 @@
 package com.anthony.product.model.exception;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -14,9 +15,11 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class GlobalErrorResponse {
     private final int status;
+    private String timestamp;
     private final String message;
-    private String stackTrace;
+    private ArrayList<String> stackTrace;
     private List<ValidationError> errors;
+    private String debugMessage;
 
     private record ValidationError(String field, String message) {
     }
