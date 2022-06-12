@@ -32,31 +32,13 @@ public class LoggingService {
         return "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t ";
     }
 
-    public void logResponse(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object body) throws IOException {
-        List<LogHeader> headers = buildHeadersMap(httpServletResponse);
-        LogHttpRequestEntity entity = new LogHttpRequestEntity("http-response",httpServletRequest.getMethod(),
-                httpServletRequest.getRequestURL(),headers,body);
-        logger.info(new LogMessage("Response", entity));
-    }
-
-
-
-    private List<LogHeader> buildHeadersMap(HttpServletRequest request) {
+    protected List<LogHeader> buildHeadersMap(HttpServletRequest request) {
         List<LogHeader> list = new ArrayList<>();
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String key = headerNames.nextElement();
             String value = request.getHeader(key);
             list.add(new LogHeader(key, value));
-        }
-        return list;
-    }
-
-    private List<LogHeader> buildHeadersMap(HttpServletResponse response) {
-        List<LogHeader> list = new ArrayList<>();
-        Collection<String> headerNames = response.getHeaderNames();
-        for (String header : headerNames) {
-            list.add(new LogHeader(header, response.getHeader(header)));
         }
         return list;
     }
