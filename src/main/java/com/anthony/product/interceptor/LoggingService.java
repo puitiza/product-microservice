@@ -1,17 +1,14 @@
-package com.anthony.product.configuration;
+package com.anthony.product.interceptor;
 
-import com.anthony.product.model.LogHeader;
-import com.anthony.product.model.LogHttpRequestEntity;
-import com.anthony.product.model.LogMessage;
+import com.anthony.product.model.log.LogHttpRequestEntity;
+import com.anthony.product.model.log.LogHttpRequestEntity.LogHeader;
+import com.anthony.product.model.log.LogMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -21,14 +18,20 @@ public class LoggingService {
 
     public void logRequest(HttpServletRequest httpServletRequest, Object body) {
         List<LogHeader> headers = buildHeadersMap(httpServletRequest);
-        LogHttpRequestEntity entity = new LogHttpRequestEntity("http-request",httpServletRequest.getMethod(),
-                httpServletRequest.getRequestURL(),headers,body);
-        logger.info("\"============================== Executing Before Handler method... ==========================\"" //+ System.lineSeparator()+
-                +newLine()+
+        LogHttpRequestEntity entity = new LogHttpRequestEntity("http-request", httpServletRequest.getMethod(),
+                httpServletRequest.getRequestURL(), headers, body);
+        logger.info("\"================================ Executing Before Handler method... ============================\""
+                + newLine() +
                 new LogMessage("Request", entity));
     }
 
-    protected String newLine(){
+    public void endLog() {
+        logger.info("\"=================================== After completing request... ===============================\""
+                + newLine()
+        );
+    }
+
+    protected String newLine() {
         return "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t ";
     }
 

@@ -1,5 +1,6 @@
-package com.anthony.product.configuration;
+package com.anthony.product.interceptor;
 
+import com.anthony.product.configuration.GlobalInterceptorHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

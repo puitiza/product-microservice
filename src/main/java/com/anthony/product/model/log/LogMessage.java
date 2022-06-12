@@ -1,4 +1,4 @@
-package com.anthony.product.model;
+package com.anthony.product.model.log;
 
 public record LogMessage(String process, Object payload) {
     @Override

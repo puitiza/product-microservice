@@ -1,4 +1,4 @@
-package com.anthony.product.model;
+package com.anthony.product.model.log;
 
 import java.util.List;
 
@@ -18,5 +18,8 @@ public record LogHttpRequestEntity(String type, String method, StringBuffer path
                 " body=" + body + "," +
                 "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" +
                 '}';
+    }
+    public record LogHeader(String key,String value) {
+
     }
 }

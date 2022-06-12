@@ -1,11 +1,11 @@
-package com.anthony.product.configuration;
+package com.anthony.product.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.anthony.product.interceptor.LoggingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageConverter;
