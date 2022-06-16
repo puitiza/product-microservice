@@ -5,27 +5,33 @@ import com.anthony.product.model.dto.ProductDto;
 import com.anthony.product.model.entity.ProductEntity;
 import com.anthony.product.model.mapper.ProductMapper;
 import com.anthony.product.repository.ProductRepository;
-import org.springframework.context.MessageSource;
+import com.anthony.product.util.MessageSource.MessageSourceHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
+import java.util.Optional;
 
 import static com.anthony.product.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
 
 @Service
-public record ProductService(ProductRepository repository, ProductMapper productMapper, MessageSource messageSource) {
+public record ProductService(ProductRepository repository, ProductMapper productMapper,
+                             MessageSourceHandler messageSource) {
 
-    public ProductEntity getProduct(Long id) {
+    public ProductEntity getProduct(Long id, Optional<Locale> locale) {
         return repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementFoundException(
-                        getLocalMessage(NO_ITEM_FOUND.getKey(), null, String.valueOf(id)))
+                                messageSource.getLocalMessage(NO_ITEM_FOUND.getKey(), locale, String.valueOf(id)),
+                                messageSource.getLocalMessage(NO_ITEM_FOUND.getCode(), locale)
+                        )
                 );
     }
 
     public ProductEntity getProductByName(String name) {
         return repository.findByName(name)
                 .orElseThrow(() -> new NoSuchElementFoundException(
-                        getLocalMessage(NO_ITEM_FOUND.getKey(), null, name))
+                                messageSource.getLocalMessage(NO_ITEM_FOUND.getKey(), Optional.empty(), name),
+                                messageSource.getLocalMessage(NO_ITEM_FOUND.getCode(), Optional.empty())
+                        )
                 );
     }
 
@@ -34,9 +40,4 @@ public record ProductService(ProductRepository repository, ProductMapper product
         return repository.save(product);
     }
 
-    private String getLocalMessage(String key, Locale locale, String... params) {
-        return messageSource.getMessage(key,
-                params,
-                Locale.US);
-    }
 }

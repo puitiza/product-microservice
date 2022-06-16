@@ -1,6 +1,4 @@
-package com.anthony.product.exception;
-
-import org.springframework.http.HttpStatus;
+package com.anthony.product.exception.handler;
 
 import java.time.ZonedDateTime;
 
@@ -20,18 +18,8 @@ public abstract class HandledException extends RuntimeException {
 
     public abstract String getErrorCode();
 
-    public abstract String getErrorMessage();
-
     public ZonedDateTime getZoneDateTime() {
         return ZonedDateTime.now();
-    }
-
-    public String getErrorDetail() {
-        try {
-            return this.getCause().toString();
-        } catch (Exception e) {
-            return "There is no error detail";
-        }
     }
 
 }
