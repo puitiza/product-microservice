@@ -17,7 +17,7 @@ import static com.anthony.product.exception.errors.ProductExceptionErrors.NO_ITE
 public record ProductService(ProductRepository repository, ProductMapper productMapper,
                              MessageSourceHandler messageSource) {
 
-    public ProductEntity getProduct(Long id, Optional<Locale> locale) {
+    public ProductEntity getProduct(Long id, Optional<String> locale) {
         return repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementFoundException(
                                 messageSource.getLocalMessage(NO_ITEM_FOUND.getKey(), locale, String.valueOf(id)),

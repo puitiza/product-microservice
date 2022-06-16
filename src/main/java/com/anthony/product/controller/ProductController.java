@@ -14,7 +14,7 @@ import java.util.Optional;
 public record ProductController(ProductService productService) {
 
     @GetMapping(path = "/{id}")
-    public ProductEntity getProduct(@RequestHeader(name = "accept-language", required = false) Locale locale,
+    public ProductEntity getProduct(@RequestHeader(name = "accept-language", required = false) String locale,
                                     @PathVariable long id) {
         return productService.getProduct(id, Optional.ofNullable(locale));
     }
