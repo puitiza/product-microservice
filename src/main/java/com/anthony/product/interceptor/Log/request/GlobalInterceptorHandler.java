@@ -18,15 +18,15 @@ public record GlobalInterceptorHandler(LoggingService loggingService) implements
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        var handlerMethod = (HandlerMethod) handler;
-        loggingService.registerLog((HandlerMethod) handler);
-
-        // Here add Controller's name if you want to show logger
-        if ((handlerMethod).getBean() instanceof ProductController) {
-            if (DispatcherType.REQUEST.name().equals(request.getDispatcherType().name()) && request.getMethod().equals(HttpMethod.GET.name())) {
-                loggingService.logRequest(request, null);
+        if(handler instanceof  HandlerMethod item){
+            // Here add Controller's name if you want to show logger
+            if (item.getBean() instanceof ProductController) {
+                loggingService.registerLog(item);
+                if (DispatcherType.REQUEST.name().equals(request.getDispatcherType().name()) && request.getMethod().equals(HttpMethod.GET.name())) {
+                    loggingService.logRequest(request, null);
+                }
+                return true;
             }
-            return true;
         }
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
