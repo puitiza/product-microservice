@@ -1,8 +1,8 @@
 package com.anthony.product.exception;
 
 import com.anthony.product.exception.handler.HandledException;
-import com.anthony.product.util.MessageSource.MessageSourceHandler;
 import com.anthony.product.model.exception.GlobalErrorResponse;
+import com.anthony.product.util.MessageSource.MessageSourceHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -37,8 +37,8 @@ public class BuildErrorResponse implements BuildStructureBody {
     }
 
     public void addTrace(GlobalErrorResponse errorResponse, Exception exception, boolean trace) {
-        if(trace){
-            var depth =(Arrays.stream(exception.getStackTrace()).count()/8);
+        if (trace) {
+            var depth = (Arrays.stream(exception.getStackTrace()).count() / 8);
             var stackTrace = Arrays.stream(exception.getStackTrace()).limit(depth)
                     .map(String::valueOf)
                     .map(s -> "   at " + s)
@@ -67,7 +67,7 @@ public class BuildErrorResponse implements BuildStructureBody {
     @Override
     public ResponseEntity<Object> structure(Exception exception, String message, HttpStatus httpStatus, WebRequest request) {
         GlobalErrorResponse errorResponse = new GlobalErrorResponse(httpStatus.value(), message);
-        addTrace(errorResponse,exception,(printStackTrace && isTraceOn(request)));
+        addTrace(errorResponse, exception, (printStackTrace && isTraceOn(request)));
         return ResponseEntity.status(httpStatus).body(errorResponse);
     }
 

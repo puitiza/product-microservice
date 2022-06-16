@@ -1,7 +1,5 @@
 package com.anthony.product.exception.handler;
 
-import org.springframework.http.HttpStatus;
-
 import java.time.ZonedDateTime;
 
 public abstract class HandledException extends RuntimeException {

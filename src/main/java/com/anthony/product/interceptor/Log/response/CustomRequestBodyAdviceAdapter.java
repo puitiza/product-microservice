@@ -1,7 +1,5 @@
 package com.anthony.product.interceptor.Log.response;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.anthony.product.interceptor.Log.LoggingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +10,13 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Type;
 
 /**
  * @author Zaw Than Oo
  * @since 01-DEC-2018 <br/>
- *        This AdviceAdapter to log for Post Http Request.
+ * This AdviceAdapter to log for Post Http Request.
  */
 @ControllerAdvice
 @RequiredArgsConstructor
@@ -36,7 +35,7 @@ public class CustomRequestBodyAdviceAdapter extends RequestBodyAdviceAdapter {
     public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType,
                                 Class<? extends HttpMessageConverter<?>> converterType) {
         ObjectMapper mapper = new ObjectMapper();
-        var data= mapper.writeValueAsString(body);
+        var data = mapper.writeValueAsString(body);
         loggingService.logRequest(httpServletRequest, data);
 
         return super.afterBodyRead(body, inputMessage, parameter, targetType, converterType);

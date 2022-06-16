@@ -2,7 +2,8 @@ package com.anthony.product.model.log;
 
 import java.util.List;
 
-public record LogHttpRequestEntity(String type, String method, StringBuffer path, List<LogHeader> headers, Object body) {
+public record LogHttpRequestEntity(String type, String method, StringBuffer path, List<LogHeader> headers,
+                                   Object body) {
 
     @Override
     public String toString() {
@@ -19,7 +20,8 @@ public record LogHttpRequestEntity(String type, String method, StringBuffer path
                 "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" +
                 '}';
     }
-    public record LogHeader(String key,String value) {
+
+    public record LogHeader(String key, String value) {
 
     }
 }

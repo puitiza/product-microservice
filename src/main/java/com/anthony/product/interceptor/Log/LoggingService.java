@@ -25,7 +25,8 @@ public class LoggingService {
                 + newLine() +
                 new LogMessage("Request", entity));
     }
-    public void registerLog(HandlerMethod handlerMethod){
+
+    public void registerLog(HandlerMethod handlerMethod) {
         System.out.println();
         this.logger = LoggerFactory.getLogger(handlerMethod.getBean().getClass());
     }

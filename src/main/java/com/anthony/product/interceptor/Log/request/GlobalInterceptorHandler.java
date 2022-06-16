@@ -39,7 +39,7 @@ public record GlobalInterceptorHandler(LoggingService loggingService) implements
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         if (handler instanceof HandlerMethod &&
-                ((HandlerMethod)handler).getBean() instanceof ProductController) {
+                ((HandlerMethod) handler).getBean() instanceof ProductController) {
             loggingService.endLog();
         }
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);

@@ -46,7 +46,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
             errorResponse.addValidationError(fieldError.getField(), fieldError.getDefaultMessage());
         }
-        buildErrorResponse.addTrace(errorResponse,ex,false);
+        buildErrorResponse.addTrace(errorResponse, ex, false);
         return ResponseEntity.unprocessableEntity().body(errorResponse);
     }
 
@@ -74,7 +74,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         GlobalErrorResponse errorResponse = new GlobalErrorResponse(status.value(), ex.getMessage());
         errorResponse.setErrorCode(messageSourceHandler.getLocalMessage(GLOBAL_ERROR.getCode()));
-        buildErrorResponse.addTrace(errorResponse,ex,false);
+        buildErrorResponse.addTrace(errorResponse, ex, false);
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }
