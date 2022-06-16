@@ -1,7 +1,7 @@
-package com.anthony.product.configuration;
+package com.anthony.product.interceptor.Log.request;
 
 import com.anthony.product.controller.ProductController;
-import com.anthony.product.interceptor.LoggingService;
+import com.anthony.product.interceptor.Log.LoggingService;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -17,9 +17,12 @@ public record GlobalInterceptorHandler(LoggingService loggingService) implements
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        var handlerMethod = (HandlerMethod) handler;
+        loggingService.registerLog((HandlerMethod) handler);
+
         // Here add Controller's name if you want to show logger
-        if (handler instanceof HandlerMethod &&
-                ((HandlerMethod)handler).getBean() instanceof ProductController) {
+        if ((handlerMethod).getBean() instanceof ProductController) {
             if (DispatcherType.REQUEST.name().equals(request.getDispatcherType().name()) && request.getMethod().equals(HttpMethod.GET.name())) {
                 loggingService.logRequest(request, null);
             }

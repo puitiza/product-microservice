@@ -1,24 +1,17 @@
 package com.anthony.product.exception.handler;
 
-import com.anthony.product.exception.HandledException;
-import org.springframework.http.HttpStatus;
-
 public class NoSuchElementFoundException extends HandledException {
 
+    String code;
 
-
-    public NoSuchElementFoundException(String message){
+    public NoSuchElementFoundException(String message,String code){
         super(message);
+        this.code = code ;
     }
 
     @Override
     public String getErrorCode() {
-        return null;
-    }
-
-    @Override
-    public String getErrorMessage() {
-        return null;
+        return code;
     }
 
 }

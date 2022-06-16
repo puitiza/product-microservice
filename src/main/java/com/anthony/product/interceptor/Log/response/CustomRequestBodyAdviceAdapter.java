@@ -1,8 +1,8 @@
-package com.anthony.product.interceptor;
+package com.anthony.product.interceptor.Log.response;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.anthony.product.interceptor.LoggingService;
+import com.anthony.product.interceptor.Log.LoggingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

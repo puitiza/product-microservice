@@ -1,11 +1,12 @@
-package com.anthony.product.interceptor;
+package com.anthony.product.interceptor.Log;
 
 import com.anthony.product.model.log.LogHttpRequestEntity;
 import com.anthony.product.model.log.LogHttpRequestEntity.LogHeader;
 import com.anthony.product.model.log.LogMessage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -14,19 +15,23 @@ import java.util.List;
 
 @Component
 public class LoggingService {
-    private static final Logger logger = LogManager.getLogger(LoggingService.class);
+    private Logger logger = LoggerFactory.getLogger(LoggingService.class);
 
     public void logRequest(HttpServletRequest httpServletRequest, Object body) {
         List<LogHeader> headers = buildHeadersMap(httpServletRequest);
         LogHttpRequestEntity entity = new LogHttpRequestEntity("http-request", httpServletRequest.getMethod(),
                 httpServletRequest.getRequestURL(), headers, body);
-        logger.info("\"================================ Executing Before Handler method... ============================\""
+        logger.debug("\"================================ Executing Before Handler method... ============================\""
                 + newLine() +
                 new LogMessage("Request", entity));
     }
+    public void registerLog(HandlerMethod handlerMethod){
+        System.out.println();
+        this.logger = LoggerFactory.getLogger(handlerMethod.getBean().getClass());
+    }
 
     public void endLog() {
-        logger.info("\"=================================== After completing request... ===============================\""
+        logger.debug("\"=================================== After completing request... ===============================\""
                 + newLine()
         );
     }

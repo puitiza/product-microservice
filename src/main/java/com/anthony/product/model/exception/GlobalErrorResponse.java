@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,6 +14,7 @@ import java.util.Objects;
 public class GlobalErrorResponse {
     private final int status;
     private String timestamp;
+    private String errorCode;
     private final String message;
     private ArrayList<String> stackTrace;
     private List<ValidationError> errors;

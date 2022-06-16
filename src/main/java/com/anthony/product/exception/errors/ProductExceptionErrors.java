@@ -7,9 +7,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ProductExceptionErrors {
 
-    NO_ITEM_FOUND("item.absent.msg","item.absent.code");
+    NO_ITEM_FOUND("item.absent.msg","item.absent.code"),
+    VALIDATION_FIELD("product.validation.field.msg","product.validation.field.code"),
+    GLOBAL_ERROR("product.global.error.msg","product.global.error.code");
 
     public final String key;
-    public final String errorCode;
+    public final String code;
 
 }
