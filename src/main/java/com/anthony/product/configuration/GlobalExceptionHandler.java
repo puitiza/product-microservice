@@ -5,6 +5,7 @@ import com.anthony.product.exception.handler.HandledException;
 import com.anthony.product.exception.handler.NoSuchElementFoundException;
 import com.anthony.product.model.exception.GlobalErrorResponse;
 import com.anthony.product.util.MessageSource.MessageSourceHandler;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import static com.anthony.product.exception.errors.ProductExceptionErrors.GLOBAL_ERROR;
 import static com.anthony.product.exception.errors.ProductExceptionErrors.VALIDATION_FIELD;
 
+@Hidden
 @Slf4j(topic = "GLOBAL_EXCEPTION_HANDLER")
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
