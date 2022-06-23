@@ -26,17 +26,7 @@ public record ProductController(ProductService productService) {
     @Operation(summary = "Find Product by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "400",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = GlobalErrorResponse.class),
-                            examples = @ExampleObject(
-                                    name = "service-400",
-                                    summary = "Not Found",
-                                    value = NOT_FOUND
-                            )
-                    )
-            )
+            @ApiResponse(responseCode = "404", content = @Content(examples = @ExampleObject(value = NOT_FOUND)))
     })
     @GetMapping(path = "/{id}", produces = "application/json")
     public ProductEntity getProduct(@RequestHeader(name = "accept-language", required = false) String locale,
