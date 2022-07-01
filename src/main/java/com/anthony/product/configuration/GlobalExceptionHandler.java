@@ -24,6 +24,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import static com.anthony.product.exception.errors.ProductExceptionErrors.GLOBAL_ERROR;
 import static com.anthony.product.exception.errors.ProductExceptionErrors.VALIDATION_FIELD;
+import static com.anthony.product.util.Generic.GenericResponse.createErrorMessageDTO;
 
 @Hidden
 @Slf4j(topic = "GLOBAL_EXCEPTION_HANDLER")
@@ -49,7 +50,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             errorResponse.addValidationError(fieldError.getField(), fieldError.getDefaultMessage());
         }
         buildErrorResponse.addTrace(errorResponse, ex, false);
-        return ResponseEntity.unprocessableEntity().body(errorResponse);
+        return ResponseEntity.unprocessableEntity().body(createErrorMessageDTO(errorResponse));
     }
 
     @ExceptionHandler(NoSuchElementFoundException.class)
@@ -77,6 +78,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         GlobalErrorResponse errorResponse = new GlobalErrorResponse(status.value(), ex.getMessage());
         errorResponse.setErrorCode(messageSourceHandler.getLocalMessage(GLOBAL_ERROR.getCode()));
         buildErrorResponse.addTrace(errorResponse, ex, false);
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(createErrorMessageDTO(errorResponse), HttpStatus.NOT_FOUND);
     }
 }

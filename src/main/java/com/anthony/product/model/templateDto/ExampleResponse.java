@@ -6,20 +6,37 @@ package com.anthony.product.model.templateDto;
  */
 public class ExampleResponse {
 
-    public static final String NOT_FOUND =
-            """
-                    {
-                        "status": 404,
-                        "timestamp": "20-06-2022 11:17:09 PET",
-                        "errorCode": "PC-0001",
-                        "message": "Item with id {0} not found",
-                        "stackTrace": [
-                            "com.anthony.product.service.ProductService.lambda$getProduct$0(ProductService.java:24)",
-                            "java.base/java.util.Optional.orElseThrow(Optional.java:403)",
-                            "com.anthony.product.service.ProductService.getProduct(ProductService.java:22)",
-                            "com.anthony.product.controller.ProductController.getProduct(ProductController.java:38)"
-                        ],
-                        "errors": null,
-                        "debugMessage": null
-                    }""";
+    public static final String OK = """
+            {
+              "data": {
+                "id": 1,
+                "name": "xiaomi",
+                "price": 10,
+                "manufacturingDate": null,
+                "weight": 20
+              },
+              "success": true,
+              "exception": null
+            }
+            """;
+    public static final String NOT_FOUND = """
+            {
+                "data": null,
+                "success": false,
+                "exception": {
+                    "status": 404,
+                    "timestamp": "28-06-2022 10:37:06 PET",
+                    "errorCode": "PC-0001",
+                    "message": "Item with id {0} not found",
+                    "stackTrace": [
+                        "com.anthony.product.service.ProductService.lambda$getProduct$0(ProductService.java:24)",
+                        "java.base/java.util.Optional.orElseThrow(Optional.java:403)",
+                        "com.anthony.product.service.ProductService.getProduct(ProductService.java:22)",
+                        "com.anthony.product.controller.ProductController.getProductById(ProductController.java:19)"
+                    ],
+                    "errors": null,
+                    "debugMessage": null
+                }
+            }
+            """;
 }
