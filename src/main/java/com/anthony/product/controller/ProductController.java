@@ -1,9 +1,8 @@
 package com.anthony.product.controller;
 
 import com.anthony.product.model.dto.ProductDto;
-import com.anthony.product.model.entity.ProductEntity;
 import com.anthony.product.service.ProductService;
-import com.anthony.product.util.Generic.GenericResponse;
+import com.anthony.product.util.Generic.ProductGeneric;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,8 +17,8 @@ public record ProductController(ProductService productService) implements Produc
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public GenericResponse<ProductEntity> getProductById(long id) {
-        var response = new GenericResponse<ProductEntity>();
+    public ProductGeneric getProductById(long id) {
+        var response = new ProductGeneric();
         response.setData(productService.getProduct(id, Optional.empty()));
         response.setSuccess(true);
         return response;
@@ -27,8 +26,8 @@ public record ProductController(ProductService productService) implements Produc
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public GenericResponse<ProductEntity> getProductByName(Locale locale, String name) {
-        var response = new GenericResponse<ProductEntity>();
+    public ProductGeneric getProductByName(Locale locale, String name) {
+        var response = new ProductGeneric();
         response.setData(productService.getProductByName(name));
         response.setSuccess(true);
         return response;
@@ -36,8 +35,8 @@ public record ProductController(ProductService productService) implements Produc
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
-    public GenericResponse<ProductEntity> addProduct(ProductDto input) {
-        var response = new GenericResponse<ProductEntity>();
+    public ProductGeneric addProduct(ProductDto input) {
+        var response = new ProductGeneric();
         response.setData(productService.addProduct(input));
         response.setSuccess(true);
         return response;

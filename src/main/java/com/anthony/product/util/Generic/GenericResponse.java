@@ -1,23 +1,17 @@
 package com.anthony.product.util.Generic;
 
-import com.anthony.product.model.entity.ProductEntity;
 import com.anthony.product.model.exception.GlobalErrorResponse;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-
-import java.io.Serializable;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-//@JsonInclude(JsonInclude.Include.NON_NULL)
-public class GenericResponse<T> implements Serializable {
+public class GenericResponse<T, U> {
     /**
      * Contains the specific response data object.
      */
-    @Schema(anyOf = {ProductEntity.class})
     private T data;
     /**
      * Indicate the operation was a success true or have errors false
@@ -26,7 +20,7 @@ public class GenericResponse<T> implements Serializable {
     /**
      * Exception detail if exist.
      */
-    private GlobalErrorResponse exception;
+    private U exception;
 
     public static Object createErrorMessageDTO(GlobalErrorResponse errorMessage) {
         return GenericResponse.builder()
