@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.anthony.product.exception.errors.ProductExceptionErrors.GLOBAL_ERROR;
+import static com.anthony.product.util.Generic.GenericResponse.createErrorMessageDTO;
 
 @Component
 @RequiredArgsConstructor
@@ -68,7 +69,7 @@ public class BuildErrorResponse implements BuildStructureBody {
     public ResponseEntity<Object> structure(Exception exception, String message, HttpStatus httpStatus, WebRequest request) {
         GlobalErrorResponse errorResponse = new GlobalErrorResponse(httpStatus.value(), message);
         addTrace(errorResponse, exception, (printStackTrace && isTraceOn(request)));
-        return ResponseEntity.status(httpStatus).body(errorResponse);
+        return ResponseEntity.status(httpStatus).body(createErrorMessageDTO(errorResponse));
     }
 
     @Override

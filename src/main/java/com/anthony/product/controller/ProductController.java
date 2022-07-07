@@ -1,32 +1,44 @@
 package com.anthony.product.controller;
 
 import com.anthony.product.model.dto.ProductDto;
-import com.anthony.product.model.entity.ProductEntity;
 import com.anthony.product.service.ProductService;
-import org.springframework.web.bind.annotation.*;
+import com.anthony.product.util.Generic.ProductGeneric;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.Locale;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/product")
-public record ProductController(ProductService productService) {
+@RequestMapping(value = "/product")
+public record ProductController(ProductService productService) implements ProductApi {
 
-    @GetMapping(path = "/{id}")
-    public ProductEntity getProduct(@RequestHeader(name = "accept-language", required = false) String locale,
-                                    @PathVariable long id) {
-        return productService.getProduct(id, Optional.ofNullable(locale));
+    @Override
+    @ResponseStatus(HttpStatus.OK)
+    public ProductGeneric getProductById(long id) {
+        var response = new ProductGeneric();
+        response.setData(productService.getProduct(id, Optional.empty()));
+        response.setSuccess(true);
+        return response;
     }
 
-    @GetMapping(path = "/by-name/{name}")
-    public ProductEntity getProductByName(@RequestHeader(name = "accept-language", required = false) Locale locale,
-                                          @PathVariable String name) {
-        return productService.getProductByName(name);
+    @Override
+    @ResponseStatus(HttpStatus.OK)
+    public ProductGeneric getProductByName(Locale locale, String name) {
+        var response = new ProductGeneric();
+        response.setData(productService.getProductByName(name));
+        response.setSuccess(true);
+        return response;
     }
 
-    @PostMapping
-    public ProductEntity addProduct(@Valid @RequestBody ProductDto input) {
-        return productService.addProduct(input);
+    @Override
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductGeneric addProduct(ProductDto input) {
+        var response = new ProductGeneric();
+        response.setData(productService.addProduct(input));
+        response.setSuccess(true);
+        return response;
     }
 }
