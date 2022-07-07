@@ -8,30 +8,25 @@ import com.anthony.product.repository.ProductRepository;
 import com.anthony.product.util.MessageSource.MessageSourceHandler;
 import org.springframework.stereotype.Service;
 
-import java.util.Locale;
-import java.util.Optional;
-
 import static com.anthony.product.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
 
 @Service
 public record ProductService(ProductRepository repository, ProductMapper productMapper,
                              MessageSourceHandler messageSource) {
 
-    public ProductEntity getProduct(Long id, Optional<String> locale) {
+    public ProductEntity getProduct(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementFoundException(
-                                messageSource.getLocalMessage(NO_ITEM_FOUND.getKey(), locale, String.valueOf(id)),
-                                messageSource.getLocalMessage(NO_ITEM_FOUND.getCode(), locale)
-                        )
+                                messageSource.getLocalMessage(NO_ITEM_FOUND.getKey(), String.valueOf(id)),
+                                messageSource.getLocalMessage(NO_ITEM_FOUND.getCode()))
                 );
     }
 
     public ProductEntity getProductByName(String name) {
         return repository.findByName(name)
                 .orElseThrow(() -> new NoSuchElementFoundException(
-                                messageSource.getLocalMessage(NO_ITEM_FOUND.getKey(), Optional.empty(), name),
-                                messageSource.getLocalMessage(NO_ITEM_FOUND.getCode(), Optional.empty())
-                        )
+                                messageSource.getLocalMessage(NO_ITEM_FOUND.getKey(), name),
+                                messageSource.getLocalMessage(NO_ITEM_FOUND.getCode()))
                 );
     }
 

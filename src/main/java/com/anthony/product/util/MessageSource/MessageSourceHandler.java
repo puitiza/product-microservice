@@ -9,11 +9,10 @@ import java.util.Optional;
 @Component
 public record MessageSourceHandler(MessageSource messageSource) {
 
-    public String getLocalMessage(String key, Optional<String> optionalLocale, String... params) {
-        var locale = optionalLocale.map(Locale::forLanguageTag).orElse(Locale.US);
+    public String getLocalMessage(String key, String... params) {
         return messageSource.getMessage(key,
                 params,
-                locale);
+                Locale.US);
     }
 
     public String getLocalMessage(String code) {
