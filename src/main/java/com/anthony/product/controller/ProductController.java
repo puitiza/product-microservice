@@ -3,38 +3,58 @@ package com.anthony.product.controller;
 import com.anthony.product.model.dto.ProductDto;
 import com.anthony.product.service.ProductService;
 import com.anthony.product.util.Generic.ProductGeneric;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Locale;
 import java.util.Optional;
+
+import static com.anthony.product.model.templateDto.ExampleResponse.NOT_FOUND;
 
 @RestController
 @RequestMapping(value = "/product")
-public record ProductController(ProductService productService) implements ProductApi {
+public record ProductController(ProductService productService) {
 
-    @Override
     @ResponseStatus(HttpStatus.OK)
-    public ProductGeneric getProductById(long id) {
+    @Operation(summary = "Find Product by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "404", content = @Content(examples = @ExampleObject(value = NOT_FOUND)))
+    })
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProductGeneric getProductById(@PathVariable Long id) {
         var response = new ProductGeneric();
-        response.setData(productService.getProduct(id, Optional.empty()));
+        response.setData(productService.getProduct(id));
         response.setSuccess(true);
         return response;
     }
 
-    @Override
+
     @ResponseStatus(HttpStatus.OK)
-    public ProductGeneric getProductByName(Locale locale, String name) {
+    @Operation(summary = "Get list of Students in the System ", tags = "getStudents")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "404", content = @Content(examples = @ExampleObject(value = NOT_FOUND)))
+    })
+    @GetMapping(path = "/by-name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProductGeneric getProductByName(@PathVariable String name) {
         var response = new ProductGeneric();
         response.setData(productService.getProductByName(name));
         response.setSuccess(true);
         return response;
     }
 
-    @Override
+
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201")
+    })
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductGeneric addProduct(ProductDto input) {
         var response = new ProductGeneric();
         response.setData(productService.addProduct(input));
