@@ -17,7 +17,7 @@ public record AddressController(AddressService addressService) {
     }
 
     @GetMapping(path = "/by-name/{name}")
-    public AddressEntity getProductByName(@PathVariable String name) {
+    public AddressEntity getAddressByName(@PathVariable String name) {
         return addressService.getAddressByLocation(name);
     }
 

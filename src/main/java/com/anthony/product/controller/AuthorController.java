@@ -1,5 +1,6 @@
 package com.anthony.product.controller;
 
+import com.anthony.product.model.dto.AuthorBooksDto;
 import com.anthony.product.model.entity.AuthorEntity;
 import com.anthony.product.model.entity.BookEntity;
 import com.anthony.product.service.AuthorService;
@@ -20,5 +21,11 @@ public record AuthorController(AuthorService authorService) {
     @PostMapping
     public AuthorEntity addAuthor(@Valid @RequestBody AuthorEntity input) {
         return authorService.addAuthor(input);
+    }
+
+    @PostMapping("/{authorId}/books")
+    public AuthorEntity addBook(@PathVariable(value = "authorId") Long authorId, @RequestBody AuthorBooksDto input) {
+        input.setAuthorId(authorId);
+        return authorService.addBooksToAuthor(input);
     }
 }

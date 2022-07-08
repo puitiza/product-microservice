@@ -4,18 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LibraryBookDto {
+public class AuthorBooksDto {
 
     @JsonIgnore
-    private Long libraryId;
+    private Long authorId;
 
-    @NotNull(message = "bookId should no be null")
     private Long bookId;
+
+    private String title;
 }
