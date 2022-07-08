@@ -22,7 +22,7 @@ public record AddressController(AddressService addressService) {
     }
 
     @PostMapping
-    public AddressEntity addProduct(@Valid @RequestBody AddressDto input) {
+    public AddressEntity addAddress(@Valid @RequestBody AddressDto input) {
         return addressService.addAddress(input);
     }
 }

@@ -18,7 +18,7 @@ import java.util.Optional;
 public record LibraryController(LibraryService libraryService) {
 
     @GetMapping(path = "/{id}")
-    public LibraryEntity getProduct(@PathVariable long id) {
+    public LibraryEntity getLibrary(@PathVariable long id) {
         return libraryService.getLibrary(id);
     }
 

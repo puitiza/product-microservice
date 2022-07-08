@@ -14,6 +14,7 @@ public class AddressEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     private String location;
 
     @JsonIgnore //It's important put JsonIgnore if not that will appear an infinite loop
