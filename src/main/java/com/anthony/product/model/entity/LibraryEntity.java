@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,5 +20,8 @@ public class LibraryEntity {
     @OneToOne
     @JoinColumn(name = "address_id")
     private AddressEntity address;
+
+    @OneToMany(mappedBy = "library", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<BookEntity> books;
 
 }

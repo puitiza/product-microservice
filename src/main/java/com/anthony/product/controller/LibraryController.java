@@ -1,5 +1,6 @@
 package com.anthony.product.controller;
 
+import com.anthony.product.model.dto.LibraryBookDto;
 import com.anthony.product.model.dto.LibraryDto;
 import com.anthony.product.model.dto.ProductDto;
 import com.anthony.product.model.entity.LibraryEntity;
@@ -23,6 +24,11 @@ public record LibraryController(LibraryService libraryService) {
 
     @PostMapping
     public LibraryEntity addLibrary(@Valid @RequestBody LibraryDto input) {
-        return libraryService.addProduct(input);
+        return libraryService.addLibrary(input);
+    }
+
+    @PutMapping
+    public LibraryEntity updateLibrary(@Valid @RequestBody LibraryBookDto input){
+        return libraryService.updateLibrary(input);
     }
 }
