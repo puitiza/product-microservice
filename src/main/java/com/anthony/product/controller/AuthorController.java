@@ -23,7 +23,7 @@ public record AuthorController(AuthorService authorService) {
         return authorService.addAuthor(input);
     }
 
-    @PostMapping("/{authorId}/books")
+    @PatchMapping("/{authorId}/books")
     public AuthorEntity addBook(@PathVariable(value = "authorId") Long authorId, @RequestBody AuthorBooksDto input) {
         input.setAuthorId(authorId);
         return authorService.addBooksToAuthor(input);
