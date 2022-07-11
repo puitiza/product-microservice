@@ -1,0 +1,23 @@
+package com.anthony.product.model.mapper;
+
+import com.anthony.product.model.dto.LibraryDto;
+import com.anthony.product.model.entity.LibraryEntity;
+import com.anthony.product.repository.AddressRepository;
+import com.anthony.product.service.AddressService;
+import org.mapstruct.*;
+
+@Mapper(componentModel = "spring")
+public interface LibraryMapper {
+
+    @Mappings({
+            @Mapping(target = "name", source = "name")
+    })
+    LibraryEntity toLibraryEntity(LibraryDto source, @Context AddressService service);
+
+    @AfterMapping
+    default void findAddressEntity(LibraryDto source, @MappingTarget LibraryEntity target, @Context AddressService repository) {
+        var address = repository.getAddress(Long.valueOf(source.getAddressId()));
+        target.setAddress(address);
+    }
+
+}
