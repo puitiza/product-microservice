@@ -2,9 +2,8 @@ package com.anthony.product.controller;
 
 import com.anthony.product.model.dto.AuthorBooksDto;
 import com.anthony.product.model.entity.AuthorEntity;
-import com.anthony.product.model.entity.BookEntity;
 import com.anthony.product.service.AuthorService;
-import com.anthony.product.service.BookService;
+import com.anthony.product.util.Generic.StringGeneric;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,5 +26,14 @@ public record AuthorController(AuthorService authorService) {
     public AuthorEntity addBook(@PathVariable(value = "authorId") Long authorId, @RequestBody AuthorBooksDto input) {
         input.setAuthorId(authorId);
         return authorService.addBooksToAuthor(input);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public StringGeneric deleteAuthor(@PathVariable long id) {
+        authorService.deleteAuthor(id);
+        var response = new StringGeneric();
+        response.setData("Author deleted successful");
+        response.setSuccess(true);
+        return response;
     }
 }

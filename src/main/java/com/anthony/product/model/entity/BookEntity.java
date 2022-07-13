@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -25,5 +26,15 @@ public class BookEntity {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "books")
-    private List<AuthorEntity> authors;
+    private Set<AuthorEntity> authors = new HashSet<>();
+
+    public void removeAuthor(AuthorEntity author) {
+        this.getAuthors().remove(author);
+        author.getBooks().remove(this);
+    }
+
+    public void removeLibrary(LibraryEntity library) {
+        this.setLibrary(null);
+        library.getBooks().remove(this);
+    }
 }

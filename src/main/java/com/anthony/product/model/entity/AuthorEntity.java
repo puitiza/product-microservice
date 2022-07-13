@@ -1,11 +1,11 @@
 package com.anthony.product.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,10 +18,20 @@ public class AuthorEntity {
 
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "book_author",
-            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id")
     )
-    private List<BookEntity> books;
+    private Set<BookEntity> books = new HashSet<>();
+
+    public void addBook(BookEntity book) {
+        this.getBooks().add(book);
+        book.getAuthors().add(this);
+    }
+
+    public void removeBook(BookEntity book) {
+        this.getBooks().remove(book);
+        book.getAuthors().remove(this);
+    }
 }
