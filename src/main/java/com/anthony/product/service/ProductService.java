@@ -23,16 +23,16 @@ public record ProductService(ProductRepository repository, EmployeeService emplo
     public ProductEntity getProduct(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new NoSuchElementFoundException(
-                                messageSource.getLocalMessage(NO_ITEM_FOUND.getKey(), String.valueOf(id)),
-                                messageSource.getLocalMessage(NO_ITEM_FOUND.getCode()))
+                        messageSource.getLocalMessage(NO_ITEM_FOUND.getKey(), String.valueOf(id)),
+                        messageSource.getLocalMessage(NO_ITEM_FOUND.getCode()))
                 );
     }
 
     public ProductEntity getProductByName(String name) {
         return repository.findByName(name)
                 .orElseThrow(() -> new NoSuchElementFoundException(
-                                messageSource.getLocalMessage(NO_ITEM_FOUND.getKey(), name),
-                                messageSource.getLocalMessage(NO_ITEM_FOUND.getCode()))
+                        messageSource.getLocalMessage(NO_ITEM_FOUND.getKey(), name),
+                        messageSource.getLocalMessage(NO_ITEM_FOUND.getCode()))
                 );
     }
 
@@ -54,6 +54,17 @@ public record ProductService(ProductRepository repository, EmployeeService emplo
         ratingRepository.save(productRating);
 
         return getProduct(productDto.getProductId());
+    }
+
+    /**
+     * Considerations when deleting Product because it has relationships (Product_Rating).
+     * It's necessary remove previously the product of the table Product_rating
+     * in order to delete Product
+     */
+    public void deleteProduct(Long productId) {
+        ratingRepository.deleteProductRatingByProductId(productId);
+        var product = getProduct(productId);
+        repository.delete(product);
     }
 
 }
