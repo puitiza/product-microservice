@@ -3,7 +3,6 @@ package com.anthony.product.controller;
 import com.anthony.product.model.dto.AddressDto;
 import com.anthony.product.model.entity.AddressEntity;
 import com.anthony.product.service.AddressService;
-import com.anthony.product.util.Generic.ProductGeneric;
 import com.anthony.product.util.Generic.StringGeneric;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +27,7 @@ public record AddressController(AddressService addressService) {
         return addressService.addAddress(input);
     }
 
-    @DeleteMapping( path = "/{id}")
+    @DeleteMapping(path = "/{id}")
     public StringGeneric deleteAddress(@PathVariable long id) {
         addressService.deleteAddress(id);
         var response = new StringGeneric();

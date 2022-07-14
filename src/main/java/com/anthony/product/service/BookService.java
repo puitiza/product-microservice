@@ -41,8 +41,8 @@ public class BookService {
     /**
      * Considerations when deleting book because it has relationships.
      * if the book has a library, it's necessary delete library previously.
-     *  book.setLibrary(null);
-     *  value.getBooks().remove(book);
+     * book.setLibrary(null);
+     * value.getBooks().remove(book);
      */
     public void deleteBook(Long id) {
         var book = getBook(id);

@@ -28,7 +28,7 @@ public record EmployeeController(EmployeeService employeeService) {
 
     @DeleteMapping(path = "/{employeeId}")
     public StringGeneric deleteProduct(@PathVariable(value = "employeeId") Long employeeId) {
-        employeeService.deleteEmployee(employeeId );
+        employeeService.deleteEmployee(employeeId);
         var response = new StringGeneric();
         response.setData("Employee deleted successful");
         response.setSuccess(true);

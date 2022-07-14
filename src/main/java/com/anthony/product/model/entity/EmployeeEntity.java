@@ -1,12 +1,10 @@
 package com.anthony.product.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -22,7 +20,7 @@ public class EmployeeEntity {
 
     private int age;
 
-    @OneToMany(mappedBy = "employee",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
     private Set<ProductRating> productRatings = new HashSet<>();
 
 }

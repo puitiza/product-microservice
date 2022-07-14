@@ -2,7 +2,6 @@ package com.anthony.product.controller;
 
 import com.anthony.product.model.dto.LibraryBookDto;
 import com.anthony.product.model.dto.LibraryDto;
-import com.anthony.product.model.entity.BookEntity;
 import com.anthony.product.model.entity.LibraryEntity;
 import com.anthony.product.service.LibraryService;
 import com.anthony.product.util.Generic.StringGeneric;

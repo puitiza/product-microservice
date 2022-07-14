@@ -18,7 +18,7 @@ public record GlobalInterceptorHandler(LoggingService loggingService) implements
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        if(handler instanceof  HandlerMethod item){
+        if (handler instanceof HandlerMethod item) {
             // Here add Controller's name if you want to show logger
             if (item.getBean() instanceof ProductController) {
                 loggingService.registerLog(item);

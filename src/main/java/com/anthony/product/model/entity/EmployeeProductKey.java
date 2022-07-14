@@ -1,6 +1,9 @@
 package com.anthony.product.model.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -33,7 +36,7 @@ public class EmployeeProductKey implements Serializable {
     public int hashCode() {
         int hsCode;
         hsCode = employeeId.hashCode();
-        hsCode = 19 * hsCode+ productId.hashCode();
+        hsCode = 19 * hsCode + productId.hashCode();
         return hsCode;
     }
 }
