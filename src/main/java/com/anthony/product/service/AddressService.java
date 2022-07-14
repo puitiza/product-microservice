@@ -5,14 +5,17 @@ import com.anthony.product.model.dto.AddressDto;
 import com.anthony.product.model.entity.AddressEntity;
 import com.anthony.product.model.mapper.AddressMapper;
 import com.anthony.product.repository.AddressRepository;
+import com.anthony.product.repository.LibraryRepository;
 import com.anthony.product.util.MessageSource.MessageSourceHandler;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 import static com.anthony.product.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
 
 @Service
-public record AddressService(AddressRepository repository, AddressMapper addressMapper,
-                             MessageSourceHandler messageSource) {
+public record AddressService(AddressRepository repository, LibraryRepository libraryRepository,
+                             AddressMapper addressMapper, MessageSourceHandler messageSource) {
 
     public AddressEntity getAddress(Long id) {
         return repository.findById(id).orElseThrow(() -> new NoSuchElementFoundException(
@@ -30,8 +33,20 @@ public record AddressService(AddressRepository repository, AddressMapper address
         return repository.save(product);
     }
 
-    public void deleteAddress(Long id){
-         repository.delete(getAddress(id));
+    /**
+     * Considerations when deleting Address because it has relationships (Library).
+     * It's necessary remove the library previously  once it's completed,
+     * It can delete the Address
+     */
+    public void deleteAddress(Long id) {
+        var address = getAddress(id);
+        Optional.ofNullable(address.getLibrary())
+                .ifPresent((value) -> {
+                    value.setAddress(null);
+                    address.setLibrary(null);
+                    libraryRepository.save(value);
+                });
+        repository.delete(address);
     }
 
 }

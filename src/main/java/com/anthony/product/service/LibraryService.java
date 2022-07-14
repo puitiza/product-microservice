@@ -3,11 +3,14 @@ package com.anthony.product.service;
 import com.anthony.product.exception.handler.NoSuchElementFoundException;
 import com.anthony.product.model.dto.LibraryBookDto;
 import com.anthony.product.model.dto.LibraryDto;
+import com.anthony.product.model.entity.BookEntity;
 import com.anthony.product.model.entity.LibraryEntity;
 import com.anthony.product.model.mapper.LibraryMapper;
 import com.anthony.product.repository.LibraryRepository;
 import com.anthony.product.util.MessageSource.MessageSourceHandler;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
 
 import static com.anthony.product.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
 
@@ -37,8 +40,17 @@ public record LibraryService(LibraryRepository repository, AddressService addres
         return getLibrary(input.getLibraryId());
     }
 
-    public void deleteLibrary(Long id){
-        repository.delete(getLibrary(id));
+    /**
+     * Considerations when deleting Library because it has relationships (Books,Address).
+     * It's necessary remove all books has the same library once it's completed,
+     * It can delete the library
+     */
+    public void deleteLibrary(Long id) {
+        var library = getLibrary(id);
+        for (BookEntity book : new HashSet<>(library.getBooks())) {
+            bookService.deleteBook(book.getId());
+        }
+        repository.delete(library);
     }
 
 

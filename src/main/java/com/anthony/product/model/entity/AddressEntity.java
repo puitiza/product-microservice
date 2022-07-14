@@ -18,6 +18,6 @@ public class AddressEntity {
     private String location;
 
     @JsonIgnore //It's important put JsonIgnore if not that will appear an infinite loop
-    @OneToOne(mappedBy = "address",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "address")
     private LibraryEntity library;
 }
