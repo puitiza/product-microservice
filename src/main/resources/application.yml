@@ -3,7 +3,7 @@ configuration:
   trace: true
 spring:
   datasource:
-    url: jdbc:h2:~/test
+    url: jdbc:h2:~/data/store;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
     username: sa
     password: password
     driverClassName: org.h2.Driver
@@ -11,7 +11,7 @@ spring:
     open-in-view: false
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
   mvc:
     throw-exception-if-no-handler-found: true
   web:
@@ -24,3 +24,5 @@ spring:
     console.settings.web-allow-others: false
   messages:
     basename: lang/messages
+springdoc:
+  writer-with-order-by-keys: true

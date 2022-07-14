@@ -4,7 +4,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
-import java.util.Optional;
 
 @Component
 public record MessageSourceHandler(MessageSource messageSource) {
