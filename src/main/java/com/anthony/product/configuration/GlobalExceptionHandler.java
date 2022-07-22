@@ -59,7 +59,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildErrorResponse.structure(ex, HttpStatus.NOT_FOUND, request);
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(HandledException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<Object> handleAllUncaughtException(HandledException ex, WebRequest request) {
         log.error("Unknown error occurred: ", ex);
