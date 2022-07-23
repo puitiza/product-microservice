@@ -29,5 +29,5 @@ spring:
 # App Properties
 app:
   jwt:
-    Secret: bezKoderSecretKey
+    Secret: SecretKey012345678901234567890123456789012345678901234567890123456789
     ExpirationMs: 86400000
