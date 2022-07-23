@@ -27,7 +27,7 @@ import static com.anthony.product.exception.errors.ProductExceptionErrors.GLOBAL
 import static com.anthony.product.exception.errors.ProductExceptionErrors.VALIDATION_FIELD;
 
 @Slf4j(topic = "GLOBAL_EXCEPTION_HANDLER")
-@Order(Ordered.LOWEST_PRECEDENCE)
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -68,7 +68,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({AuthenticationException.class, InsufficientAuthenticationException.class,})
     public ResponseEntity<Object> handleInsufficientAuthenticationException(InsufficientAuthenticationException ex, WebRequest request) {
-        String methodName = "handleInsufficientAuthenticationException()";
+        log.error("Failed to access the resource element", ex);
         return buildErrorResponse.structure(ex, ex.getMessage(), HttpStatus.UNAUTHORIZED, request);
     }
 
