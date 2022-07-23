@@ -12,6 +12,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,7 +27,7 @@ import static com.anthony.product.exception.errors.ProductExceptionErrors.GLOBAL
 import static com.anthony.product.exception.errors.ProductExceptionErrors.VALIDATION_FIELD;
 
 @Slf4j(topic = "GLOBAL_EXCEPTION_HANDLER")
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(Ordered.LOWEST_PRECEDENCE)
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -52,16 +54,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NoSuchElementFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<Object> handleNoSuchElementFoundException(NoSuchElementFoundException itemNotFoundException, WebRequest request) {
-        log.error("Failed to find the requested element", itemNotFoundException);
-        return buildErrorResponse.structure(itemNotFoundException, HttpStatus.NOT_FOUND, request);
+    public ResponseEntity<Object> handleNoSuchElementFoundException(NoSuchElementFoundException ex, WebRequest request) {
+        log.error("Failed to find the requested element", ex);
+        return buildErrorResponse.structure(ex, HttpStatus.NOT_FOUND, request);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<Object> handleAllUncaughtException(HandledException exception, WebRequest request) {
-        log.error("Unknown error occurred: ", exception);
-        return buildErrorResponse.structure(exception, "Unknown error occurred", HttpStatus.INTERNAL_SERVER_ERROR, request);
+    public ResponseEntity<Object> handleAllUncaughtException(HandledException ex, WebRequest request) {
+        log.error("Unknown error occurred: ", ex);
+        return buildErrorResponse.structure(ex, "Unknown error occurred", HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
+
+    @ExceptionHandler({AuthenticationException.class, InsufficientAuthenticationException.class,})
+    public ResponseEntity<Object> handleInsufficientAuthenticationException(InsufficientAuthenticationException ex, WebRequest request) {
+        String methodName = "handleInsufficientAuthenticationException()";
+        return buildErrorResponse.structure(ex, ex.getMessage(), HttpStatus.UNAUTHORIZED, request);
     }
 
     @Override

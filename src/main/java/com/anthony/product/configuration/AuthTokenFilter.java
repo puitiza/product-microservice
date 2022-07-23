@@ -2,9 +2,11 @@ package com.anthony.product.configuration;
 
 import com.anthony.product.service.UserDetailsServiceImpl;
 import com.anthony.product.util.JwtUtils;
+import io.jsonwebtoken.JwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
