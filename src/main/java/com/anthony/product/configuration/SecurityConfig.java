@@ -16,6 +16,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
+/**
+ * Spring Security provides some annotations for pre- and post-invocation authorization checks,
+ * filtering of submitted collection arguments or return values: @PreAuthorize, @PreFilter, @PostAuthorize and @PostFilter.
+ * To enable Method Security Expressions, we use @EnableGlobalMethodSecurity annotation:
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

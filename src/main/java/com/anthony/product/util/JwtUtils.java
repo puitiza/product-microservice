@@ -66,6 +66,9 @@ public class JwtUtils {
      */
     public boolean validateJwtToken(String authToken) {
         try {
+            if(secretKey==null){
+                this.secretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+            }
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(authToken);
             return true;
         } catch (MalformedJwtException e) {
