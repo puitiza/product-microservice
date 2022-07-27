@@ -25,7 +25,7 @@ import static com.anthony.product.exception.errors.ProductExceptionErrors.GLOBAL
 public class BuildErrorResponse implements BuildStructureBody {
     public static final String TRACE = "trace";
     @Value("${configuration.trace:false}")
-    private boolean printStackTrace;
+    public boolean printStackTrace;
 
     private final MessageSourceHandler messageSource;
 
@@ -50,6 +50,7 @@ public class BuildErrorResponse implements BuildStructureBody {
         var stackTrace2 = Arrays.stream(exception.getStackTrace()).limit(4)
                 .map(String::valueOf)
                 .collect(Collectors.toCollection(ArrayList::new));
+        stackTrace2.add(0, exception.getClass().getCanonicalName() + " " + exception.getMessage());
         errorResponse.setStackTrace(stackTrace2);
 
         var timestamp = ZonedDateTime.now();
@@ -67,8 +68,12 @@ public class BuildErrorResponse implements BuildStructureBody {
     @Override
     public ResponseEntity<Object> structure(Exception exception, String message, HttpStatus httpStatus, WebRequest request) {
         GlobalErrorResponse errorResponse = new GlobalErrorResponse(httpStatus.value(), message);
-        addTrace(errorResponse, exception, (printStackTrace && isTraceOn(request)));
+        addTrace(errorResponse, exception, stackTrace(request));
         return ResponseEntity.status(httpStatus).body(errorResponse);
+    }
+
+    public boolean stackTrace(WebRequest request) {
+        return (printStackTrace && isTraceOn(request));
     }
 
     @Override
