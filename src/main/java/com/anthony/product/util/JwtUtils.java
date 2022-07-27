@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.crypto.SecretKey;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +30,6 @@ public class JwtUtils {
     @Value("${app.jwt.ExpirationMs}")
     private int jwtExpirationMs;
 
-    private static final String AUTHORITIES_KEY = "auth";
     private SecretKey secretKey;
 
     /**
@@ -106,20 +106,25 @@ public class JwtUtils {
      * @param authToken - jwt token
      * @return whether valid
      */
-    public boolean validateJwtToken(String authToken) {
+    public boolean validateJwtToken(String authToken, HttpServletRequest request) {
         try {
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(authToken);
             return true;
-        } catch (SecurityException e) {
-            log.error("Invalid JWT signature trace: {}", e.getMessage());
-        } catch (MalformedJwtException e) {
-            log.error("Invalid JWT token: {}", e.getMessage());
-        } catch (ExpiredJwtException e) {
-            log.error("JWT token is expired: {}", e.getMessage());
-        } catch (UnsupportedJwtException e) {
-            log.error("JWT token is unsupported: {}", e.getMessage());
-        } catch (IllegalArgumentException e) {
-            log.error("JWT claims string is empty: {}", e.getMessage());
+        } catch (SecurityException ex) {
+            request.setAttribute("exception", ex);
+            log.error("Invalid JWT signature trace: {}", ex.getMessage());
+        } catch (MalformedJwtException ex) {
+            request.setAttribute("exception", ex);
+            log.error("Invalid JWT token: {}", ex.getMessage());
+        } catch (ExpiredJwtException ex) {
+            request.setAttribute("exception", ex);
+            log.error("JWT token is expired: {}", ex.getMessage());
+        } catch (UnsupportedJwtException ex) {
+            request.setAttribute("exception", ex);
+            log.error("JWT token is unsupported: {}", ex.getMessage());
+        } catch (IllegalArgumentException ex) {
+            request.setAttribute("exception", ex);
+            log.error("JWT claims string is empty: {}", ex.getMessage());
         }
         return false;
     }

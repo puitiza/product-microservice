@@ -3,6 +3,7 @@ package com.anthony.product.configuration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -50,11 +51,20 @@ public class SecurityConfig {
                 .exceptionHandling()
                 .authenticationEntryPoint(unauthorizedEntryPoint())
                 .and()
+                // make sure we use stateless session; session won't be used to store user's state.
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api/test/**").permitAll()
-                .anyRequest().authenticated();
+                    .antMatchers("/api/auth/**").permitAll()
+                    .antMatchers("/api/test/**").permitAll()
+                .and()
+                .authorizeRequests()
+                    .antMatchers(HttpMethod.POST, "/product").permitAll()
+                    .antMatchers("/product/{id}").hasRole("ADMIN")
+                    .antMatchers("/product/by-name/{name}").hasAnyRole("USER", "MODERATOR")
+//                  .antMatchers("/admin**").access("hasRole('ADMIN')")   //remember inside of hasRole function defaultRolePrefix = "ROLE_";
+                    .anyRequest().authenticated();
+
+// 		Add a filter to validate the tokens with every request
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
