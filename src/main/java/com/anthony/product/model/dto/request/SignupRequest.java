@@ -1,55 +1,31 @@
 package com.anthony.product.model.dto.request;
 
+import com.anthony.product.util.CustomValidation.Alphanumeric;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
+@Setter
+@Getter
 public class SignupRequest {
-    @NotBlank
-    @Size(min = 3, max = 20)
+
+    //@Alphanumeric(message = "Only alphanumeric characters except these special characters('@','.','_','-') are allowed")
+    @NotBlank(message = "'username' field not should be null or empty")
+    @Size(min = 3, max = 20, message = "'username' field should be minimum size 3 and maximum 20")
     private String username;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
+    @NotBlank(message = "'email' field not should be null or empty")
+    @Size(min = 5, max = 50, message = "'email' field should be minimum size 5 and maximum 50")
+    @Email(message = "email address must be valid")
     private String email;
 
-    private Set<String> role;
-
-    @NotBlank
-    @Size(min = 6, max = 40)
+    @NotBlank(message = "'password' field not should be null or empty")
+    @Size(min = 6, max = 40, message = "'password' field should be minimum size 6 and maximum 40")
     private String password;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<String> getRole() {
-        return this.role;
-    }
-
-    public void setRole(Set<String> role) {
-        this.role = role;
-    }
+    private Set<String> role;
 }
