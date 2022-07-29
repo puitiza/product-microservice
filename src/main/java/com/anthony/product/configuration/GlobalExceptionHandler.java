@@ -1,6 +1,7 @@
 package com.anthony.product.configuration;
 
 import com.anthony.product.exception.BuildErrorResponse;
+import com.anthony.product.exception.handler.ExistingElementFoundException;
 import com.anthony.product.exception.handler.HandledException;
 import com.anthony.product.exception.handler.NoSuchElementFoundException;
 import com.anthony.product.model.exception.GlobalErrorResponse;
@@ -51,8 +52,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-    @ExceptionHandler(NoSuchElementFoundException.class)
-    public ResponseEntity<Object> handleNoSuchElementFoundException(NoSuchElementFoundException ex, WebRequest request) {
+    @ExceptionHandler({NoSuchElementFoundException.class, ExistingElementFoundException.class})
+    public ResponseEntity<Object> handleNoSuchElementFoundException(Exception ex, WebRequest request) {
         log.error("Failed to find the requested element", ex);
         return buildErrorResponse.structure(ex, HttpStatus.NOT_FOUND, request);
     }
