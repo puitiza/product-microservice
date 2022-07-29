@@ -1,4 +1,4 @@
-package com.anthony.product.configuration;
+package com.anthony.product.configuration.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

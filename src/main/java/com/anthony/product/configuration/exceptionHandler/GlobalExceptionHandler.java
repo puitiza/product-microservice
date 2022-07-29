@@ -1,9 +1,9 @@
-package com.anthony.product.configuration;
+package com.anthony.product.configuration.exceptionHandler;
 
-import com.anthony.product.exception.BuildErrorResponse;
-import com.anthony.product.exception.handler.ExistingElementFoundException;
-import com.anthony.product.exception.handler.HandledException;
-import com.anthony.product.exception.handler.NoSuchElementFoundException;
+import com.anthony.product.component.exception.BuildErrorResponse;
+import com.anthony.product.component.exception.handler.ExistingElementFoundException;
+import com.anthony.product.component.exception.handler.HandledException;
+import com.anthony.product.component.exception.handler.NoSuchElementFoundException;
 import com.anthony.product.model.exception.GlobalErrorResponse;
 import com.anthony.product.util.MessageSource.MessageSourceHandler;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
-import static com.anthony.product.exception.errors.ProductExceptionErrors.*;
+import static com.anthony.product.component.exception.errors.ProductExceptionErrors.*;
 
 @Slf4j(topic = "GLOBAL_EXCEPTION_HANDLER")
 @Order(Ordered.HIGHEST_PRECEDENCE)

@@ -1,7 +1,7 @@
-package com.anthony.product.interceptor.Log.request;
+package com.anthony.product.configuration.interceptorLog.request;
 
 import com.anthony.product.controller.ProductController;
-import com.anthony.product.interceptor.Log.LoggingService;
+import com.anthony.product.component.log.LoggingService;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;

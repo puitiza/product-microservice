@@ -6,7 +6,7 @@ import com.anthony.product.model.dto.request.SignupRequest;
 import com.anthony.product.model.dto.response.JwtResponse;
 import com.anthony.product.model.dto.response.MessageResponse;
 import com.anthony.product.service.UserDetailsServiceImpl;
-import com.anthony.product.util.JwtUtils;
+import com.anthony.product.configuration.security.JwtUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

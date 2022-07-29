@@ -1,7 +1,7 @@
 package com.anthony.product.service;
 
-import com.anthony.product.exception.errors.UserExceptionErrors;
-import com.anthony.product.exception.handler.ExistingElementFoundException;
+import com.anthony.product.component.exception.errors.UserExceptionErrors;
+import com.anthony.product.component.exception.handler.ExistingElementFoundException;
 import com.anthony.product.model.dto.Enum.Role;
 import com.anthony.product.model.dto.UserDetailsImpl;
 import com.anthony.product.model.dto.request.SignupRequest;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.anthony.product.exception.errors.UserExceptionErrors.*;
+import static com.anthony.product.component.exception.errors.UserExceptionErrors.*;
 
 @Service
 @RequiredArgsConstructor

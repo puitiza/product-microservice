@@ -1,6 +1,6 @@
 package com.anthony.product.service;
 
-import com.anthony.product.exception.handler.NoSuchElementFoundException;
+import com.anthony.product.component.exception.handler.NoSuchElementFoundException;
 import com.anthony.product.model.dto.request.ProductRequest;
 import com.anthony.product.model.entity.ProductEntity;
 import com.anthony.product.model.mapper.ProductMapper;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.anthony.product.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
+import static com.anthony.product.component.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
 
 @Service
 public record ProductServiceImpl(ProductRepository repository, ProductMapper productMapper,

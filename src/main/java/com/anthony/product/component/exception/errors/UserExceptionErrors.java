@@ -1,4 +1,4 @@
-package com.anthony.product.exception.errors;
+package com.anthony.product.component.exception.errors;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

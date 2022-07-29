@@ -1,4 +1,4 @@
-package com.anthony.product.interceptor.Log;
+package com.anthony.product.component.log;
 
 import com.anthony.product.model.log.LogHttpRequestEntity;
 import com.anthony.product.model.log.LogHttpRequestEntity.LogHeader;

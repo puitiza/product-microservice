@@ -1,4 +1,4 @@
-package com.anthony.product.util;
+package com.anthony.product.configuration.security;
 
 import com.anthony.product.model.dto.UserDetailsImpl;
 import io.jsonwebtoken.*;

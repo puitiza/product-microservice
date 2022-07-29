@@ -1,4 +1,4 @@
-package com.anthony.product.exception.handler;
+package com.anthony.product.component.exception.handler;
 
 public class NoSuchElementFoundException extends HandledException {
 

@@ -1,6 +1,6 @@
-package com.anthony.product.interceptor.Log.response;
+package com.anthony.product.configuration.interceptorLog.response;
 
-import com.anthony.product.interceptor.Log.LoggingService;
+import com.anthony.product.component.log.LoggingService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
