@@ -1,6 +1,6 @@
-package com.anthony.product.model.dto;
+package com.anthony.product.model.dto.request;
 
-import com.anthony.product.model.Enum.Category;
+import com.anthony.product.model.dto.Enum.Category;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @Builder
-public class ProductDto {
+public class ProductRequest {
 
     @NotBlank(message = "name field not should be null or empty")
     @Size(min = 5, max = 64, message = "name field should be minimum size 5 and maximum 64")

@@ -1,6 +1,6 @@
 package com.anthony.product.controller;
 
-import com.anthony.product.model.dto.ProductDto;
+import com.anthony.product.model.dto.request.ProductRequest;
 import com.anthony.product.model.entity.ProductEntity;
 import com.anthony.product.service.ProductService;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ public record ProductController(ProductService productService) {
     }
 
     @PostMapping
-    public ProductEntity addProduct(@Valid @RequestBody ProductDto input) {
+    public ProductEntity addProduct(@Valid @RequestBody ProductRequest input) {
         return productService.addProduct(input);
     }
 }
