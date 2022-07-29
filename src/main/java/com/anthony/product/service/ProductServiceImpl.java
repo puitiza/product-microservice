@@ -13,8 +13,8 @@ import java.util.Optional;
 import static com.anthony.product.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
 
 @Service
-public record ProductService(ProductRepository repository, ProductMapper productMapper,
-                             MessageSourceHandler messageSource) {
+public record ProductServiceImpl(ProductRepository repository, ProductMapper productMapper,
+                                 MessageSourceHandler messageSource) {
 
     public ProductEntity getProduct(Long id, Optional<String> locale) {
         return repository.findById(id)
