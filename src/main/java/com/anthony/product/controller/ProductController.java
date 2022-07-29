@@ -1,13 +1,23 @@
 package com.anthony.product.controller;
 
-import com.anthony.product.model.dto.ProductDto;
+import com.anthony.product.model.dto.ProductEmployeesDto;
+import com.anthony.product.model.dto.request.ProductRequest;
 import com.anthony.product.model.entity.ProductEntity;
-import com.anthony.product.service.ProductService;
+import com.anthony.product.service.ProductServiceImpl;
+import com.anthony.product.util.Generic.ProductGeneric;
+import com.anthony.product.util.Generic.StringGeneric;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Locale;
-import java.util.Optional;
+
+import static com.anthony.product.model.templateDto.ExampleResponse.NOT_FOUND;
 
 @RestController
 @RequestMapping(value = "/product")
@@ -22,7 +32,7 @@ public record ProductController(ProductServiceImpl productServiceImpl) {
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductGeneric getProductById(@PathVariable Long id) {
         var response = new ProductGeneric();
-        response.setData(productService.getProduct(id));
+        response.setData(productServiceImpl.getProduct(id));
         response.setSuccess(true);
         return response;
     }
@@ -37,7 +47,7 @@ public record ProductController(ProductServiceImpl productServiceImpl) {
     @GetMapping(path = "/by-name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductGeneric getProductByName(@PathVariable String name) {
         var response = new ProductGeneric();
-        response.setData(productService.getProductByName(name));
+        response.setData(productServiceImpl.getProductByName(name));
         response.setSuccess(true);
         return response;
     }
@@ -48,9 +58,9 @@ public record ProductController(ProductServiceImpl productServiceImpl) {
             @ApiResponse(responseCode = "201")
     })
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProductGeneric addProduct(@Valid @RequestBody ProductDto input) {
+    public ProductGeneric addProduct(@Valid @RequestBody ProductRequest input) {
         var response = new ProductGeneric();
-        response.setData(productService.addProduct(input));
+        response.setData(productServiceImpl.addProduct(input));
         response.setSuccess(true);
         return response;
     }
@@ -58,12 +68,12 @@ public record ProductController(ProductServiceImpl productServiceImpl) {
     @PatchMapping("/{productId}/employees")
     public ProductEntity addEmployee(@PathVariable(value = "productId") Long productId, @Valid @RequestBody ProductEmployeesDto input) {
         input.setProductId(productId);
-        return productService.addEmployees(input);
+        return productServiceImpl.addEmployees(input);
     }
 
     @DeleteMapping(path = "/{productId}")
     public StringGeneric deleteProduct(@PathVariable(value = "productId") Long productId) {
-        productService.deleteProduct(productId);
+        productServiceImpl.deleteProduct(productId);
         var response = new StringGeneric();
         response.setData("Product deleted successful");
         response.setSuccess(true);

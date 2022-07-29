@@ -1,6 +1,6 @@
 package com.anthony.product.service;
 
-import com.anthony.product.exception.handler.NoSuchElementFoundException;
+import com.anthony.product.component.exception.handler.NoSuchElementFoundException;
 import com.anthony.product.model.entity.BookEntity;
 import com.anthony.product.model.entity.LibraryEntity;
 import com.anthony.product.repository.BookRepository;
@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-import static com.anthony.product.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
+import static com.anthony.product.component.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
 
 @Service
 @Transactional

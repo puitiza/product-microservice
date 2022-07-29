@@ -1,8 +1,9 @@
-package com.anthony.product.configuration;
+package com.anthony.product.configuration.exceptionHandler;
 
-import com.anthony.product.exception.BuildErrorResponse;
-import com.anthony.product.exception.handler.HandledException;
-import com.anthony.product.exception.handler.NoSuchElementFoundException;
+import com.anthony.product.component.exception.BuildErrorResponse;
+import com.anthony.product.component.exception.handler.ExistingElementFoundException;
+import com.anthony.product.component.exception.handler.HandledException;
+import com.anthony.product.component.exception.handler.NoSuchElementFoundException;
 import com.anthony.product.model.exception.GlobalErrorResponse;
 import com.anthony.product.util.MessageSource.MessageSourceHandler;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -13,17 +14,20 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static com.anthony.product.exception.errors.ProductExceptionErrors.GLOBAL_ERROR;
-import static com.anthony.product.exception.errors.ProductExceptionErrors.VALIDATION_FIELD;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
+
+import static com.anthony.product.component.exception.errors.ProductExceptionErrors.*;
+import static com.anthony.product.util.Generic.GenericResponse.createErrorMessageDTO;
 
 @Hidden
 @Slf4j(topic = "GLOBAL_EXCEPTION_HANDLER")

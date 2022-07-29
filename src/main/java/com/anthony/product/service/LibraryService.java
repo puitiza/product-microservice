@@ -1,6 +1,6 @@
 package com.anthony.product.service;
 
-import com.anthony.product.exception.handler.NoSuchElementFoundException;
+import com.anthony.product.component.exception.handler.NoSuchElementFoundException;
 import com.anthony.product.model.dto.LibraryBookDto;
 import com.anthony.product.model.dto.LibraryDto;
 import com.anthony.product.model.entity.BookEntity;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 
-import static com.anthony.product.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
+import static com.anthony.product.component.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
 
 @Service
 public record LibraryService(LibraryRepository repository, AddressService addressService, BookService bookService,

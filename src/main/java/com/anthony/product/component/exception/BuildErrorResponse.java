@@ -18,7 +18,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.anthony.product.exception.errors.ProductExceptionErrors.GLOBAL_ERROR;
+import static com.anthony.product.component.exception.errors.ProductExceptionErrors.GLOBAL_ERROR;
+import static com.anthony.product.util.Generic.GenericResponse.createErrorMessageDTO;
 
 @Component
 @RequiredArgsConstructor

@@ -1,22 +1,24 @@
 package com.anthony.product.service;
 
-import com.anthony.product.exception.handler.NoSuchElementFoundException;
-import com.anthony.product.model.dto.ProductDto;
+import com.anthony.product.component.exception.handler.NoSuchElementFoundException;
+import com.anthony.product.model.dto.ProductEmployeesDto;
+import com.anthony.product.model.dto.request.ProductRequest;
 import com.anthony.product.model.entity.ProductEntity;
+import com.anthony.product.model.entity.ProductRating;
 import com.anthony.product.model.mapper.ProductMapper;
+import com.anthony.product.repository.ProductRatingRepository;
 import com.anthony.product.repository.ProductRepository;
 import com.anthony.product.util.MessageSource.MessageSourceHandler;
 import org.springframework.stereotype.Service;
 
-import java.util.Locale;
-import java.util.Optional;
+import java.util.Date;
 
 import static com.anthony.product.component.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
 
 @Service
 public record ProductServiceImpl(ProductRepository repository, EmployeeService employeeService,
-                             ProductRatingRepository ratingRepository, ProductMapper productMapper,
-                             MessageSourceHandler messageSource) {
+                                 ProductRatingRepository ratingRepository, ProductMapper productMapper,
+                                 MessageSourceHandler messageSource) {
 
     public ProductEntity getProduct(Long id) {
         return repository.findById(id)
