@@ -1,27 +1,17 @@
 package com.anthony.product.controller;
 
 import com.anthony.product.model.dto.ProductDto;
-import com.anthony.product.model.dto.ProductEmployeesDto;
 import com.anthony.product.model.entity.ProductEntity;
 import com.anthony.product.service.ProductService;
-import com.anthony.product.util.Generic.ProductGeneric;
-import com.anthony.product.util.Generic.StringGeneric;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
-import static com.anthony.product.model.templateDto.ExampleResponse.NOT_FOUND;
+import java.util.Locale;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/product")
-public record ProductController(ProductService productService) {
+public record ProductController(ProductServiceImpl productServiceImpl) {
 
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Find Product by id")

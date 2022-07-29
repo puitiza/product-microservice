@@ -24,6 +24,7 @@ spring:
     console.settings.web-allow-others: false
   messages:
     basename: lang/messages
+
 springdoc:
   writer-with-order-by-keys: true
 
@@ -31,3 +32,9 @@ logging: #This configuration is to register inside the console just Info level a
   level:
     root: INFO
     com.anthony.product: DEBUG
+
+# App Properties
+app:
+  jwt:
+    Secret: SecretKey012345678901234567890123456789012345678901234567890123456789
+    ExpirationMs: 86400000
