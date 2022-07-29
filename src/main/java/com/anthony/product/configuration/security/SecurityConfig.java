@@ -56,6 +56,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                     .antMatchers("/api/auth/**").permitAll()
                     .antMatchers("/api/test/**").permitAll()
+                    .antMatchers("/**").permitAll() // permit all the routers after swagger-ui.html
                 .and()
                 .authorizeRequests()
                     .antMatchers(HttpMethod.POST, "/product").permitAll()
