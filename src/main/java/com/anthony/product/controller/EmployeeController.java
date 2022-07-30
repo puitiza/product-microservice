@@ -21,13 +21,8 @@ public record EmployeeController(EmployeeService employeeService) {
         return employeeService.addEmployee(input);
     }
 
-    @DeleteMapping
-    public EmployeeEntity deleteEmployee(@Valid @RequestBody EmployeeEntity input) {
-        return employeeService.addEmployee(input);
-    }
-
     @DeleteMapping(path = "/{employeeId}")
-    public StringGeneric deleteProduct(@PathVariable(value = "employeeId") Long employeeId) {
+    public StringGeneric deleteEmployee(@PathVariable(value = "employeeId") Long employeeId) {
         employeeService.deleteEmployee(employeeId);
         var response = new StringGeneric();
         response.setData("Employee deleted successful");

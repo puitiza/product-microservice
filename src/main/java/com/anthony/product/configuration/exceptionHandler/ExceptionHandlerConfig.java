@@ -34,7 +34,7 @@ import static com.anthony.product.util.Generic.GenericResponse.createErrorMessag
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 @RequiredArgsConstructor
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class ExceptionHandlerConfig extends ResponseEntityExceptionHandler {
 
     private final BuildErrorResponse buildErrorResponse;
     private final MessageSourceHandler messageSourceHandler;
