@@ -51,12 +51,23 @@ public class SecurityConfig {
                 .exceptionHandling()
                 .authenticationEntryPoint(unauthorizedEntryPoint())
                 .and()
-                // make sure we use stateless session; session won't be used to store user's state.
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//              make sure we use stateless session; session won't be used to store user's state.
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+//              this is another and better way to handle swagger documentation
+                .authorizeRequests()
+                    .antMatchers("/swagger-ui.html",
+                            "/webjars/swagger-ui/**",
+                            "/v3/api-docs/**",
+                            "/swagger-ui/**",
+                            "/v3/api-docs/swagger-config",
+                            "/v3/api-docs",
+                            "/favicon.ico").permitAll()
+                .and()
                 .authorizeRequests()
                     .antMatchers("/api/auth/**").permitAll()
                     .antMatchers("/api/test/**").permitAll()
-                    .antMatchers("/**").permitAll() // permit all the routers after swagger-ui.html
+//                  .antMatchers("/**").permitAll() // permit all the routers after swagger-ui.html, but it's not recommend
                 .and()
                 .authorizeRequests()
                     .antMatchers(HttpMethod.POST, "/product").permitAll()
