@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,9 +46,20 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * .headers(...) -> This tells the browser that the page can only be displayed in a frame on the same origin as the page itself.
+     * However, if a different (potentially malicious) website tried to embed one the pages, the browser would not allow it.
+     * @param http HttpSecurity
+     * @return SecurityFilterChain
+     * @throws Exception When something wrong happens
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http.cors()
+                .and()
+//              Instead of disabling it, it is sufficient to set X-Frame-Options to SAME ORIGIN, for this use case.
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+                .csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(unauthorizedEntryPoint())
                 .and()
@@ -62,7 +74,9 @@ public class SecurityConfig {
                             "/swagger-ui/**",
                             "/v3/api-docs/swagger-config",
                             "/v3/api-docs",
-                            "/favicon.ico").permitAll()
+                            "/favicon.ico",
+                            "/h2-console/**",
+                            "/h2-console").permitAll()
                 .and()
                 .authorizeRequests()
                     .antMatchers("/api/auth/**").permitAll()

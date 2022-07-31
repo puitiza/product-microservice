@@ -44,7 +44,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             request.setAttribute("exception", ex);
         }
         //this is a way to find the URL request
-        //System.out.println(request.getRequestURI());
+        System.out.println(request.getRequestURI());
         filterChain.doFilter(request, response);
     }
 
