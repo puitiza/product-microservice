@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.DispatcherType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 @Component
 public record GlobalInterceptorHandler(LoggingService loggingService) implements HandlerInterceptor {
@@ -41,6 +42,9 @@ public record GlobalInterceptorHandler(LoggingService loggingService) implements
         if (handler instanceof HandlerMethod &&
                 ((HandlerMethod) handler).getBean() instanceof ProductController) {
             loggingService.endLog();
+        } else {
+            //Call CustomRequestBodyAdvice
+            Optional.ofNullable(request.getAttribute("afterBody")).ifPresent(value -> loggingService.endLog());
         }
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }

@@ -14,6 +14,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -83,6 +84,16 @@ public class ExceptionHandlerConfig extends ResponseEntityExceptionHandler {
         errorResponse.setDetailMessage(detailMessage);
 
         buildErrorResponse.addTrace(errorResponse, ex, buildErrorResponse.stackTrace(webRequest));
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Object> handleInvalidCredentialsException(BadCredentialsException ex,WebRequest request) {
+        log.error("Failed to autenticate the requested element", ex);
+
+        GlobalErrorResponse errorResponse = new GlobalErrorResponse(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
+        errorResponse.setErrorCode(messageSourceHandler.getLocalMessage(AUTHORIZATION_ERROR.getCode()));
+        buildErrorResponse.addTrace(errorResponse, ex, buildErrorResponse.stackTrace(request));
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 

@@ -37,6 +37,8 @@ public class CustomRequestBodyAdviceAdapter extends RequestBodyAdviceAdapter {
         ObjectMapper mapper = new ObjectMapper();
         var data = mapper.writeValueAsString(body);
         loggingService.logRequest(httpServletRequest, data);
+        //this is a way to detect if I go through responseBody
+        httpServletRequest.setAttribute("afterBody","detected");
 
         return super.afterBodyRead(body, inputMessage, parameter, targetType, converterType);
     }
