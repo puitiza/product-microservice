@@ -1,18 +1,23 @@
 package com.anthony.product.configuration.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -40,6 +45,24 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+/*
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("user").password("password").roles("USER")
+                .and()
+                .withUser("admin").password("password").roles("USER", "ADMIN");
+    }*/
+/*
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+        UserDetails user = User
+                .withUsername("user")
+                .password("{noop}password")
+                .roles("USER")
+                .build();
+        return new InMemoryUserDetailsManager(user);
+    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -56,27 +79,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors()
-                .and()
 //              Instead of disabling it, it is sufficient to set X-Frame-Options to SAME ORIGIN, for this use case.
+                .and()
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(unauthorizedEntryPoint())
-                .and()
 //              make sure we use stateless session; session won't be used to store user's state.
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 //              this is another and better way to handle swagger documentation
+                .and()
                 .authorizeRequests()
-                    .antMatchers("/swagger-ui.html",
-                            "/webjars/swagger-ui/**",
-                            "/v3/api-docs/**",
-                            "/swagger-ui/**",
-                            "/v3/api-docs/swagger-config",
-                            "/v3/api-docs",
-                            "/favicon.ico",
-                            "/h2-console/**",
-                            "/h2-console").permitAll()
+                    .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
+                            "/favicon.ico", "/h2-console/**").permitAll()
                 .and()
                 .authorizeRequests()
                     .antMatchers("/api/auth/**").permitAll()
