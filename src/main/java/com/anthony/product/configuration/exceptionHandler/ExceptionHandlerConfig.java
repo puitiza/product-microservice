@@ -14,6 +14,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.validation.FieldError;
@@ -87,14 +88,25 @@ public class ExceptionHandlerConfig extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<Object> handleInvalidCredentialsException(BadCredentialsException ex,WebRequest request) {
+    @ExceptionHandler({BadCredentialsException.class})
+    public ResponseEntity<Object> handleInvalidCredentialsException(Exception ex, WebRequest request) {
         log.error("Failed to autenticate the requested element", ex);
 
         GlobalErrorResponse errorResponse = new GlobalErrorResponse(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
         errorResponse.setErrorCode(messageSourceHandler.getLocalMessage(AUTHORIZATION_ERROR.getCode()));
         buildErrorResponse.addTrace(errorResponse, ex, buildErrorResponse.stackTrace(request));
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler({AccessDeniedException.class})
+    public ResponseEntity<Object> handleAccessDeniedException(Exception ex, WebRequest request) {
+        log.error("Denied to access the requested element", ex);
+
+        GlobalErrorResponse errorResponse = new GlobalErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+        errorResponse.setErrorCode(messageSourceHandler.getLocalMessage(AUTHORIZATION_ERROR.getCode()));
+        errorResponse.setDetailMessage(messageSourceHandler.getLocalMessage(DENIED_ACCESS_ERROR.getKey()));
+        buildErrorResponse.addTrace(errorResponse, ex, buildErrorResponse.stackTrace(request));
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
     @Override

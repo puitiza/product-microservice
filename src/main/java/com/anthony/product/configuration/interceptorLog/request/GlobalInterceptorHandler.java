@@ -21,7 +21,7 @@ public record GlobalInterceptorHandler(LoggingService loggingService) implements
 
         if (handler instanceof HandlerMethod item) {
             // Here add Controller's name if you want to show logger
-            if (item.getBean() instanceof ProductController) {
+            if (item.getBean().getClass().getSimpleName().contains("Controller")) {
                 loggingService.registerLog(item);
                 if (DispatcherType.REQUEST.name().equals(request.getDispatcherType().name()) && request.getMethod().equals(HttpMethod.GET.name())) {
                     loggingService.logRequest(request, null);

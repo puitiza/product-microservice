@@ -1,25 +1,21 @@
 package com.anthony.product.configuration.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
@@ -45,24 +41,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-/*
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER")
-                .and()
-                .withUser("admin").password("password").roles("USER", "ADMIN");
-    }*/
-/*
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User
-                .withUsername("user")
-                .password("{noop}password")
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(user);
-    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -72,6 +50,7 @@ public class SecurityConfig {
     /**
      * .headers(...) -> This tells the browser that the page can only be displayed in a frame on the same origin as the page itself.
      * However, if a different (potentially malicious) website tried to embed one the pages, the browser would not allow it.
+     *
      * @param http HttpSecurity
      * @return SecurityFilterChain
      * @throws Exception When something wrong happens
@@ -84,6 +63,7 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .csrf().disable()
                 .exceptionHandling()
+                .accessDeniedHandler(accessDeniedHandler())
                 .authenticationEntryPoint(unauthorizedEntryPoint())
 //              make sure we use stateless session; session won't be used to store user's state.
                 .and()
@@ -115,6 +95,12 @@ public class SecurityConfig {
     public AuthenticationEntryPoint unauthorizedEntryPoint() {
         return (request, response, authException) ->
                 handlerExceptionResolver.resolveException(request, response, null, authException);
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return (request, response, ex) ->
+                handlerExceptionResolver.resolveException(request, response, null, ex);
     }
 
 }
