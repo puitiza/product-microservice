@@ -7,6 +7,7 @@ import com.anthony.product.model.dto.UserDetailsImpl;
 import com.anthony.product.model.dto.request.SignupRequest;
 import com.anthony.product.model.dto.response.JwtResponse;
 import com.anthony.product.model.dto.response.MessageResponse;
+import com.anthony.product.model.entity.RefreshTokenEntity;
 import com.anthony.product.model.entity.RoleEntity;
 import com.anthony.product.model.entity.UserEntity;
 import com.anthony.product.repository.RoleRepository;
@@ -45,12 +46,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return UserDetailsImpl.build(user);
     }
 
-    public JwtResponse createToken(UserDetailsImpl userDetails, String jwt) {
+    public JwtResponse createToken(UserDetailsImpl userDetails, String jwt, RefreshTokenEntity refreshToken) {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        return new JwtResponse(userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles, jwt);
+        return new JwtResponse(userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles, jwt,refreshToken.getToken());
     }
 
     public MessageResponse register(SignupRequest signUpRequest) {

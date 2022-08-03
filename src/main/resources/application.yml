@@ -38,4 +38,5 @@ logging: #This configuration is to register inside the console just Info level a
 app:
   jwt:
     Secret: SecretKey012345678901234567890123456789012345678901234567890123456789
-    ExpirationMs: 86400000
+    ExpirationMs: 3600000
+    refreshExpirationDateInMs: 86400000

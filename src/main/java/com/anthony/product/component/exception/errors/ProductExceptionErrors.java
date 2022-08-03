@@ -11,7 +11,9 @@ public enum ProductExceptionErrors {
     VALIDATION_FIELD("product.validation.field.msg", "product.validation.field.code"),
     GLOBAL_ERROR("product.global.error.msg", "product.global.error.code"),
     AUTHORIZATION_ERROR("product.authorization.error.msg", "product.authorization.error.code"),
-    DENIED_ACCESS_ERROR("product.denied.access.error.msg","product.authorization.error.code");
+    DENIED_ACCESS_ERROR("product.denied.access.error.msg","product.denied.access.error.code"),
+    REFRESH_TOKEN_ERROR("product.refresh.token.error.msg","product.denied.access.error.code"),
+    REFRESH_TOKEN_EXPIRED_ERROR("product.refresh.token.expired.error.msg","product.denied.access.error.code");
 
     public final String key;
     public final String code;

@@ -4,6 +4,7 @@ import com.anthony.product.component.exception.BuildErrorResponse;
 import com.anthony.product.component.exception.handler.ExistingElementFoundException;
 import com.anthony.product.component.exception.handler.HandledException;
 import com.anthony.product.component.exception.handler.NoSuchElementFoundException;
+import com.anthony.product.component.exception.handler.TokenRefreshException;
 import com.anthony.product.model.exception.GlobalErrorResponse;
 import com.anthony.product.util.MessageSource.MessageSourceHandler;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -61,6 +62,17 @@ public class ExceptionHandlerConfig extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleNoSuchElementFoundException(Exception ex, WebRequest request) {
         log.error("Failed to find the requested element", ex);
         return buildErrorResponse.structure(ex, HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(TokenRefreshException.class)
+    public ResponseEntity<Object> handleTokenRefreshException(TokenRefreshException ex, WebRequest request) {
+        log.error("Failed to refresh Token in the requested element", ex);
+
+        GlobalErrorResponse errorResponse = new GlobalErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+        errorResponse.setErrorCode(messageSourceHandler.getLocalMessage(AUTHORIZATION_ERROR.getCode()));
+
+        buildErrorResponse.addTrace(errorResponse, ex, buildErrorResponse.stackTrace(request));
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(HandledException.class)

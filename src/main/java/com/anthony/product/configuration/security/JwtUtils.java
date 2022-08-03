@@ -5,9 +5,11 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -29,7 +31,8 @@ public class JwtUtils {
     private String jwtSecret;
     @Value("${app.jwt.ExpirationMs}")
     private int jwtExpirationMs;
-
+    @Value("${app.jwt.refreshExpirationDateInMs}")
+    private int jwtRefreshExpirationDateInMs;
     private SecretKey secretKey;
 
     /**
@@ -100,6 +103,26 @@ public class JwtUtils {
         return claims.getSubject();
     }
 
+
+    public String generateTokenFromUsername(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    public String doGenerateRefreshToken(Map<String, Object> claims, String subject) {
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtRefreshExpirationDateInMs))
+                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     /**
      * validate token.
      *
@@ -117,8 +140,16 @@ public class JwtUtils {
             request.setAttribute("exception", ex);
             log.error("Invalid JWT token: {}", ex.getMessage());
         } catch (ExpiredJwtException ex) {
-            request.setAttribute("exception", ex);
             log.error("JWT token is expired: {}", ex.getMessage());
+
+            String isRefreshToken = request.getHeader("isRefreshToken");
+            String requestURL = request.getRequestURL().toString();
+            // allow for Refresh Token creation if following conditions are true.
+            if (isRefreshToken != null && isRefreshToken.equals("true") && requestURL.contains("refreshtoken")) {
+                allowForRefreshToken(ex, request);
+            } else
+                request.setAttribute("exception", ex);
+            //request.setAttribute("exception", ex);
         } catch (UnsupportedJwtException ex) {
             request.setAttribute("exception", ex);
             log.error("JWT token is unsupported: {}", ex.getMessage());
@@ -127,5 +158,19 @@ public class JwtUtils {
             log.error("JWT claims string is empty: {}", ex.getMessage());
         }
         return false;
+    }
+
+
+    /**
+     * create a UsernamePasswordAuthenticationToken with null values. After setting the Authentication in the context,
+     * we specify that the current user is authenticated.So it passes the Spring Security Configurations successfully.
+     * Set the claims so that in controller we will be using it to create new JWT
+     *
+     * @param ex,request - jwt token
+     */
+    private void allowForRefreshToken(ExpiredJwtException ex, HttpServletRequest request) {
+        var userAuthenticationToken = new UsernamePasswordAuthenticationToken(null, null, null);
+        SecurityContextHolder.getContext().setAuthentication(userAuthenticationToken);
+        request.setAttribute("claims", ex.getClaims());
     }
 }
