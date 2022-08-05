@@ -3,6 +3,7 @@ package com.anthony.product.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -41,6 +42,12 @@ public class UserEntity {
 
     public UserEntity() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity(id=" + this.id + ", username=" + this.username + ", email=" + this.email +
+                ", password=" + 12345678 + ",roles=" + this.roles + ")";
     }
 
     public void addRole(RoleEntity role) {

@@ -36,7 +36,7 @@ public record AuthController(UserDetailsServiceImpl userDetailsService, RefreshT
         return userDetailsService.createToken(userDetails, jwt, refreshToken);
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/sign-up")
     public MessageResponse registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         return userDetailsService.register(signUpRequest);
     }

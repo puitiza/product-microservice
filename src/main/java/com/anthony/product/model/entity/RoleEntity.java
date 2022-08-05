@@ -4,6 +4,7 @@ import com.anthony.product.model.dto.Enum.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity(name = "Role")
+@ToString
 public class RoleEntity {
 
     @Id
@@ -24,6 +26,7 @@ public class RoleEntity {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")
+    @ToString.Exclude
     private Set<UserEntity> users = new HashSet<>();
 
     public void removeUser(UserEntity user) {

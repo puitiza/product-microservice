@@ -37,7 +37,7 @@ public class LoggingService {
         );
     }
 
-    protected String newLine() {
+    public static String newLine() {
         return "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t ";
     }
 

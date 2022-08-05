@@ -1,19 +1,22 @@
 package com.anthony.product.model.dto.request;
 
-import com.anthony.product.util.CustomValidation.Alphanumeric;
+import com.anthony.product.model.dto.Enum.Role;
+import com.anthony.product.util.CustomValidation.ValueOfEnum;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class SignupRequest {
 
-    //@Alphanumeric(message = "Only alphanumeric characters except these special characters('@','.','_','-') are allowed")
     @NotBlank(message = "'username' field not should be null or empty")
     @Size(min = 3, max = 20, message = "'username' field should be minimum size 3 and maximum 20")
     private String username;
@@ -27,5 +30,6 @@ public class SignupRequest {
     @Size(min = 6, max = 40, message = "'password' field should be minimum size 6 and maximum 40")
     private String password;
 
-    private Set<String> role;
+    @ValueOfEnum(enumClass = Role.class)
+    private String role;
 }
