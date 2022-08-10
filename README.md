@@ -18,7 +18,8 @@ spring:
   username: sa
   password: password
 ```
-![img_1.png](src/main/resources/images/img_1.png)
+
+<img src="src/main/resources/images/img_1.png" width=50% height=50%>
 
   
 > Note: Remember to start up this project with H2 is necessary initialize it
@@ -28,3 +29,22 @@ spring:
     hibernate:
       ddl-auto: create-drop
 ```
+
+
+#  **JWT (JSON Web Token)**
+
+JWT is popular for Authentication and Information Exchange. Server encodes data into a JSON Web Token and send it to the Client. The Client saves the JWT, then every Request from Client to protected routes or resources should be attached that JWT (commonly at header). The Server will validate that JWT and return the Response.
+
+There are three important parts of a JWT: Header, Payload, Signature. Together they are combined to a standard structure: header.payload.signature.
+
+
+<img src="https://bezkoder.com/wp-content/uploads/2019/10/spring-boot-authentication-jwt-spring-security-flow.png" width=40% height=40%>
+
+Spring Security Authentication process: receive HTTP request, filter, authenticate, store Authentication data, generate token, get User details, authorize, handle exception…
+
+# Contribution
+
+- Report issues
+- Open pull request with improvements
+- Spread the word
+- Reach out to me directly at <anthony.puitiza.02@gmail.com>
