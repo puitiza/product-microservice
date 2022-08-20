@@ -27,16 +27,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        // == create initial privileges
-       /* final PrivilegeAccess readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE");
-        final PrivilegeAccess writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
-        final PrivilegeAccess viewUsersPrivilege = createPrivilegeIfNotFound("VIEW_USERS_PRIVILEGE");
-        final PrivilegeAccess assignUsersByToRolePrivilege = createPrivilegeIfNotFound("ASSIGN_USERS_BY_TO_ROLE_PRIVILEGE");
-        final PrivilegeAccess passwordPrivilege = createPrivilegeIfNotFound("CHANGE_PASSWORD_PRIVILEGE");
-        final PrivilegeAccess manager_privilege = createPrivilegeIfNotFound("MANAGER_PRIVILEGE");
-        final PrivilegeAccess director_privilege = createPrivilegeIfNotFound("DIRECTOR_PRIVILEGE");
-        */
-
         // == create initial Role
         var role_1 = createRoleIfNotFound(Role.ROLE_ADMIN);
         var role_2 = createRoleIfNotFound(Role.ROLE_USER);
