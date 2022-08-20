@@ -11,7 +11,7 @@ spring:
     open-in-view: false
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
   mvc:
     throw-exception-if-no-handler-found: true
   web:
@@ -24,6 +24,8 @@ spring:
     console.settings.web-allow-others: false
   messages:
     basename: lang/messages
+    encoding: UTF-8
+
 springdoc:
   writer-with-order-by-keys: true
 
@@ -31,3 +33,10 @@ logging: #This configuration is to register inside the console just Info level a
   level:
     root: INFO
     com.anthony.product: DEBUG
+
+# App Properties
+app:
+  jwt:
+    Secret: SecretKey012345678901234567890123456789012345678901234567890123456789
+    ExpirationMs: 3600000
+    refreshExpirationDateInMs: 86400000

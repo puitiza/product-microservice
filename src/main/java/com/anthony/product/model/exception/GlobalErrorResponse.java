@@ -1,5 +1,8 @@
 package com.anthony.product.model.exception;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -16,8 +19,12 @@ public class GlobalErrorResponse {
     private String timestamp;
     private String errorCode;
     private final String message;
+    private String detailMessage = "";
     private ArrayList<String> stackTrace;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ValidationError> errors;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String debugMessage;
 
     private record ValidationError(String field, String message) {

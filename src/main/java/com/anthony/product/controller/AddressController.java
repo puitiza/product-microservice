@@ -4,11 +4,13 @@ import com.anthony.product.model.dto.AddressDto;
 import com.anthony.product.model.entity.AddressEntity;
 import com.anthony.product.service.AddressService;
 import com.anthony.product.util.Generic.StringGeneric;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
+@SecurityRequirement(name = "Auth-JWT")
 @RequestMapping("/address")
 public record AddressController(AddressService addressService) {
 
