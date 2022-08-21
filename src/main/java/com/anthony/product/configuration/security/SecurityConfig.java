@@ -80,6 +80,7 @@ public class SecurityConfig {
 //                  .antMatchers("/**").permitAll() // permit all the routers after swagger-ui.html, but it's not recommend
                 .and()
                 .authorizeRequests()
+                    .antMatchers("/image/**").permitAll()
                     .antMatchers(HttpMethod.POST, "/product").permitAll()
                     .antMatchers("/product/{id}").hasRole("ADMIN")
                     .antMatchers("/product/by-name/{name}").hasAnyRole("USER", "MODERATOR")
