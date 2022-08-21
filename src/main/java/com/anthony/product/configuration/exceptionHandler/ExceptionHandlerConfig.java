@@ -23,6 +23,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -119,6 +120,17 @@ public class ExceptionHandlerConfig extends ResponseEntityExceptionHandler {
         errorResponse.setDetailMessage(messageSourceHandler.getLocalMessage(DENIED_ACCESS_ERROR.getKey()));
         buildErrorResponse.addTrace(errorResponse, ex, buildErrorResponse.stackTrace(request));
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<Object> handleMaxSizeException(MaxUploadSizeExceededException ex,WebRequest request) {
+        log.error("Failed to store this requested element", ex);
+
+        GlobalErrorResponse errorResponse = new GlobalErrorResponse(HttpStatus.EXPECTATION_FAILED.value(), ex.getMessage());
+        errorResponse.setErrorCode(messageSourceHandler.getLocalMessage(STORE_FILE_ERROR.getCode()));
+        errorResponse.setDetailMessage(messageSourceHandler.getLocalMessage(STORE_FILE_ERROR.getKey()));
+        buildErrorResponse.addTrace(errorResponse, ex, buildErrorResponse.stackTrace(request));
+        return new ResponseEntity<>(errorResponse, HttpStatus.EXPECTATION_FAILED);
     }
 
     @Override
