@@ -1,37 +1,65 @@
-buildscript {
-    ext {
-        springBootVersion = '2.7.0'
-    }
-
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3"
-    }
-}
-
 plugins {
-	id 'org.springframework.boot' version "${springBootVersion}"
+	id 'org.springframework.boot' version '2.7.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-    id "org.sonarqube" version "3.3"
     id 'jacoco'
+    id "org.sonarqube" version "3.4.0.2513"
 }
+
+group = 'com.anthony'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
 
 jacoco {
     toolVersion = "0.8.8"
 }
 
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled true
+        html.destination file("${buildDir}/reports/jacocoHtml")
+    }
+    dependsOn test // tests are required to run before generating the report
+}
+
+test {
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        includes= ["com.anthony.*"]
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    }
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.5
+            }
+        }
+    }
+}
+
 sonarqube {
     properties {
-    //    property "sonar.coverage.jacoco.xmlReportPath", "${project.buildDir}/reports/jacoco.xml"
-    //    property "sonar.junit.reportPaths", "${project.buildDir}/reports/jacoco.xml"
-
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.login", "5f542370ca13ec8a9ca37048d7f32809c01681c0"
+        property "sonar.exclusions", "**/*StoreApplication.java"
+        property "sonar.qualitygate.wait", true
         property "sonar.verbose", true
-        property "sonar.sources", "src/main"
+    }
+}
+/*
+sonarqube {
+    properties {
+        property "sonar.coverage.jacoco.xmlReportPath", "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+        property "sonar.junit.reportPaths", "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+        property "sonar.verbose", true
+        property "sonar.sources", "src/main/java"
         property "sonar.tests", "src/test"
-
-
-
 
         property "sonar.host.url", "http://localhost:9000"
         property "sonar.projectName", project.name
@@ -40,31 +68,15 @@ sonarqube {
         property "sonar.login", "5f542370ca13ec8a9ca37048d7f32809c01681c0"
         property "sonar.sourceEncoding", "UTF-8"
         property "sonar.qualitygate.wait", true
+        property "sonar.language", java
         property "sonar.java.binaries", "build/classes"
+        property "sonar.java.libraries", "build/classes"
+
     }
-}
+}*/
 
-test {
-    useJUnitPlatform()
-    finalizedBy jacocoTestReport
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        html.enabled true
-        csv.enabled true
-    }
-}
-
-group = 'com.anthony'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+tasks.named('sonarqube').configure {
+    dependsOn test
 }
 
 repositories {
@@ -94,7 +106,7 @@ dependencies {
     // 	<!-- Starter for UnitTest  -->
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation group: 'org.mockito', name: 'mockito-inline', version: '2.7.21'
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.10'
 	// 	<!-- JSON Web Token Support -->
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
 
@@ -104,8 +116,4 @@ dependencies {
         exclude group: 'org.json', module: 'json' //provided by Android natively
     }
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
 }
