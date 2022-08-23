@@ -4,10 +4,7 @@ and it split by section and commits.
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-**H2 Browser console !**
-```sh
-http://localhost:8080/h2-console
-```
+**H2 Browser console !** <a href="http://localhost:8080/h2-console" target="_blank" rel="noopener">http://localhost:8080/h2-console</a>
 
 To Access is necessary to look in the application.yml file,
 we have the url, username and password
@@ -17,9 +14,11 @@ spring:
   url: jdbc:h2:~/test
   username: sa
   password: password
-```
+``` 
 
-<img src="src/main/resources/images/img_1.png" width=50% height=50%>
+| web  | intellij IDEA |
+| --------  | -------- |
+| <img src="https://user-images.githubusercontent.com/24264799/186257563-337dbf7c-1a04-4f4f-a150-1f8306f3b5df.png">      | <img src="https://user-images.githubusercontent.com/24264799/186260500-fad06882-3e09-4780-9e4c-f6ec7d7e028a.png"> |
 
   
 > Note: Remember to start up this project with H2 is necessary initialize it
@@ -42,24 +41,41 @@ There are three important parts of a JWT: Header, Payload, Signature. Together t
 
 Spring Security Authentication process: receive HTTP request, filter, authenticate, store Authentication data, generate token, get User details, authorize, handle exception…
 
-## Sonarqube/PostgreSQL in Apple M1 Chip
-
-### ⚡️ Quickstart
-
-- Install Docker from [here](https://www.docker.com/)
-- Start Docker App 
-- Clone this repository in your development path
+## Sonarqube/PostgreSQL in Apple M1 Chip or Windows
 
 ### ‍💻 Installation
 
-In your terminal on your cloned path
+In your terminal
 
-- Run `docker build --pull --rm -f "Dockerfile" -t localsonar:staging "."`
-- Run `docker-compose up -d`
-- Check in your navegator the addres **localhost:9000**
+- Run `docker pull davealdon/sonarqube-with-docker-and-m1-macs`
+
+  if you have on windonws OS:
+  
+  Run `docker pull sonarqube:9.6-community`
+
+  In both case we are using version 9.x of sonarqube because this project is for Java 17
+- Run `docker run -d --name sonarqube -p 9000:9000 -p 9092:9092 davealdon/sonarqube-with-docker-and-m1-macs`
+- Check in your navegator the addres <a href="http://localhost:9000" target="_blank" rel="noopener">http://localhost:9000</a>
 - User and Pasword are "admin"
 
-#### Enjoy your SonarQube in M1 Apple
+### ‍💻 Quickstart
+
+- Is necesary to create a token and then configurate on your code inside `build.gradle` file
+  ```
+  sonarqube {
+      properties {
+          property "sonar.host.url", "http://localhost:9000"
+          property "sonar.login", "5f542370ca13ec8a9ca37048d7f32809c01681c0"
+      }
+  }
+  ```
+|   |  |
+| --------  | -------- |
+| <img src="https://user-images.githubusercontent.com/24264799/186265137-b8ce1208-af63-4387-8bd0-48dcc217c6c5.png">| <img src="https://user-images.githubusercontent.com/24264799/186266110-eae20b83-efae-4138-8a44-414beeaf8b6b.png"> |
+
+# wiki
+- Sonarqube -> https://medium.com/@HoussemDellai/setup-sonarqube-in-a-docker-container-3c3908b624df
+- Jacoco -> https://medium.com/codex/software-engineering-done-right-2358ae0d6dd4
 
 # Contribution
 
