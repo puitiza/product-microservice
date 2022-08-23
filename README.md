@@ -61,6 +61,7 @@ In your terminal
 ### ‍💻 Quickstart
 
 - Is necesary to create a token and then configurate on your code inside `build.gradle` file
+  <img width=50% height=50% src="https://user-images.githubusercontent.com/24264799/186265137-b8ce1208-af63-4387-8bd0-48dcc217c6c5.png">
   ```
   sonarqube {
       properties {
@@ -69,13 +70,21 @@ In your terminal
       }
   }
   ```
+- Now you must to run a script for sonarqube in your terminal
+
+   Run `./gradlew test jacocoTestReport`  This is to create coverage of your code and then
+  
+   Run `./gradlew sonarqube`  after this step you can see your project in sonarqube with sucessfull.
+- The easiest way is to do it with gradle, only press in sonarqube like you can see below, but remember before build/clean.
+
 |   |  |
 | --------  | -------- |
-| <img src="https://user-images.githubusercontent.com/24264799/186265137-b8ce1208-af63-4387-8bd0-48dcc217c6c5.png">| <img src="https://user-images.githubusercontent.com/24264799/186266110-eae20b83-efae-4138-8a44-414beeaf8b6b.png"> |
+|<img src="https://user-images.githubusercontent.com/24264799/186272202-d4affd86-0692-44ea-8a61-c47fd1bdb7ad.png">|<img src="https://user-images.githubusercontent.com/24264799/186266110-eae20b83-efae-4138-8a44-414beeaf8b6b.png">|
 
 # wiki
 - Sonarqube -> https://medium.com/@HoussemDellai/setup-sonarqube-in-a-docker-container-3c3908b624df
 - Jacoco -> https://medium.com/codex/software-engineering-done-right-2358ae0d6dd4
+- code Coverage (Sonarqube + Jacoco) -> https://tomgregory.com/how-to-measure-code-coverage-using-sonarqube-and-jacoco/
 
 # Contribution
 
