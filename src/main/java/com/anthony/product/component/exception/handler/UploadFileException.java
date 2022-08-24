@@ -1,10 +1,10 @@
 package com.anthony.product.component.exception.handler;
 
-public class TokenRefreshException extends HandledException {
+public class UploadFileException extends HandledException {
 
     private final String code;
 
-    public TokenRefreshException(String message, String code) {
+    public UploadFileException(String message, String code) {
         super(message);
         this.code = code;
     }

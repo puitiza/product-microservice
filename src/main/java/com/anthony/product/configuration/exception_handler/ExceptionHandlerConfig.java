@@ -1,4 +1,4 @@
-package com.anthony.product.configuration.exceptionHandler;
+package com.anthony.product.configuration.exception_handler;
 
 import com.anthony.product.component.exception.BuildErrorResponse;
 import com.anthony.product.component.exception.handler.ExistingElementFoundException;
@@ -6,7 +6,7 @@ import com.anthony.product.component.exception.handler.HandledException;
 import com.anthony.product.component.exception.handler.NoSuchElementFoundException;
 import com.anthony.product.component.exception.handler.TokenRefreshException;
 import com.anthony.product.model.exception.GlobalErrorResponse;
-import com.anthony.product.util.MessageSource.MessageSourceHandler;
+import com.anthony.product.util.message_source.MessageSourceHandler;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 import static com.anthony.product.component.exception.errors.ProductExceptionErrors.*;
-import static com.anthony.product.util.Generic.GenericResponse.createErrorMessageDTO;
+import static com.anthony.product.util.generic.GenericResponse.createErrorMessageDTO;
 
 @Hidden
 @Slf4j(topic = "GLOBAL_EXCEPTION_HANDLER")

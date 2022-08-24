@@ -1,4 +1,4 @@
-package com.anthony.product.model.dto.Enum;
+package com.anthony.product.model.dto._enum;
 
 public enum Category {
     MOBILE,

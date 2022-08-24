@@ -1,7 +1,7 @@
-package com.anthony.product.configuration.interceptorLog.request;
+package com.anthony.product.configuration.interceptor_log.request;
 
-import com.anthony.product.controller.ProductController;
 import com.anthony.product.component.log.LoggingService;
+import com.anthony.product.controller.ProductController;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -19,15 +19,15 @@ public record GlobalInterceptorHandler(LoggingService loggingService) implements
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        if (handler instanceof HandlerMethod item) {
-            // Here add Controller's name if you want to show logger
-            if (item.getBean().getClass().getSimpleName().contains("Controller")) {
+        if (handler instanceof HandlerMethod item &&
+                item.getBean().getClass().getSimpleName().contains("Controller")) {
+
                 loggingService.registerLog(item);
-                if (DispatcherType.REQUEST.name().equals(request.getDispatcherType().name()) && request.getMethod().equals(HttpMethod.GET.name())) {
+                if (DispatcherType.REQUEST.name().equals(request.getDispatcherType().name()) &&
+                        request.getMethod().equals(HttpMethod.GET.name())) {
                     loggingService.logRequest(request, null);
                 }
                 return true;
-            }
         }
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
@@ -39,8 +39,7 @@ public record GlobalInterceptorHandler(LoggingService loggingService) implements
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        if (handler instanceof HandlerMethod &&
-                ((HandlerMethod) handler).getBean() instanceof ProductController) {
+        if (handler instanceof HandlerMethod item && (item).getBean() instanceof ProductController) {
             loggingService.endLog();
         } else {
             //Call CustomRequestBodyAdvice

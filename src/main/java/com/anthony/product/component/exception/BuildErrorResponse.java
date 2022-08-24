@@ -2,7 +2,7 @@ package com.anthony.product.component.exception;
 
 import com.anthony.product.component.exception.handler.HandledException;
 import com.anthony.product.model.exception.GlobalErrorResponse;
-import com.anthony.product.util.MessageSource.MessageSourceHandler;
+import com.anthony.product.util.message_source.MessageSourceHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.anthony.product.component.exception.errors.ProductExceptionErrors.GLOBAL_ERROR;
-import static com.anthony.product.util.Generic.GenericResponse.createErrorMessageDTO;
+import static com.anthony.product.util.generic.GenericResponse.createErrorMessageDTO;
 
 @Component
 @RequiredArgsConstructor

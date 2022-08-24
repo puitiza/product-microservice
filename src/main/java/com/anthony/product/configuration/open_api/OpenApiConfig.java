@@ -1,4 +1,4 @@
-package com.anthony.product.configuration.openApi;
+package com.anthony.product.configuration.open_api;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -16,7 +16,6 @@ import java.util.List;
 
 @Configuration
 public class OpenApiConfig {
-    //public static final String AUTHORIZATION_HEADER = "Authorization";
     @Bean
     public OpenAPI openApi() {
         final String securitySchemeName = "Auth-JWT";

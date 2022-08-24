@@ -1,4 +1,4 @@
-package com.anthony.product.util.MessageSource;
+package com.anthony.product.util.message_source;
 
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;

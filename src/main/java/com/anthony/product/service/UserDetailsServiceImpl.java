@@ -2,15 +2,15 @@ package com.anthony.product.service;
 
 import com.anthony.product.component.exception.errors.UserExceptionErrors;
 import com.anthony.product.component.exception.handler.ExistingElementFoundException;
-import com.anthony.product.model.dto.Enum.Role;
 import com.anthony.product.model.dto.UserDetailsImpl;
+import com.anthony.product.model.dto._enum.Role;
 import com.anthony.product.model.dto.request.SignupRequest;
 import com.anthony.product.model.dto.response.JwtResponse;
 import com.anthony.product.model.dto.response.MessageResponse;
 import com.anthony.product.model.entity.RefreshTokenEntity;
 import com.anthony.product.model.entity.UserEntity;
 import com.anthony.product.repository.UserRepository;
-import com.anthony.product.util.MessageSource.MessageSourceHandler;
+import com.anthony.product.util.message_source.MessageSourceHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,9 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.anthony.product.component.exception.errors.UserExceptionErrors.EMAIL_FOUND;
 import static com.anthony.product.component.exception.errors.UserExceptionErrors.USERNAME_FOUND;
@@ -47,9 +45,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public JwtResponse createToken(UserDetailsImpl userDetails, String jwt, RefreshTokenEntity refreshToken) {
-        List<String> roles = userDetails.getAuthorities().stream()
+        var roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                .toList();
 
         return new JwtResponse(userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles, jwt, refreshToken.getToken());
     }
@@ -77,8 +75,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     public MessageResponse register(SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) throwException(USERNAME_FOUND);
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) throwException(EMAIL_FOUND);
+        var username = userRepository.existsByUsername(signUpRequest.getUsername());
+        var email = userRepository.existsByEmail(signUpRequest.getEmail());
+        if (Boolean.TRUE.equals(username)) throwException(USERNAME_FOUND);
+        if (Boolean.TRUE.equals(email)) throwException(EMAIL_FOUND);
+
         addUser(signUpRequest);
         return new MessageResponse("User registered successfully!");
     }

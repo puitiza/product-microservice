@@ -4,7 +4,7 @@ import com.anthony.product.model.dto.LibraryBookDto;
 import com.anthony.product.model.dto.LibraryDto;
 import com.anthony.product.model.entity.LibraryEntity;
 import com.anthony.product.service.LibraryService;
-import com.anthony.product.util.Generic.StringGeneric;
+import com.anthony.product.util.generic.StringGeneric;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

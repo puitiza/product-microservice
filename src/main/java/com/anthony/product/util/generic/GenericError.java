@@ -1,4 +1,4 @@
-package com.anthony.product.util.Generic;
+package com.anthony.product.util.generic;
 
 import com.anthony.product.model.exception.GlobalErrorResponse;
 

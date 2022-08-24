@@ -1,6 +1,6 @@
 package com.anthony.product.model.dto.request;
 
-import com.anthony.product.model.dto.Enum.Category;
+import com.anthony.product.model.dto._enum.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;

@@ -2,7 +2,7 @@ package com.anthony.product.component.exception.handler;
 
 public class ExistingElementFoundException extends HandledException {
 
-    String code;
+    private final String code;
 
     public ExistingElementFoundException(String message, String code) {
         super(message);

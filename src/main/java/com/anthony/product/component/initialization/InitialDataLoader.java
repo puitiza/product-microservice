@@ -1,6 +1,6 @@
 package com.anthony.product.component.initialization;
 
-import com.anthony.product.model.dto.Enum.Role;
+import com.anthony.product.model.dto._enum.Role;
 import com.anthony.product.model.dto.request.SignupRequest;
 import com.anthony.product.model.entity.RoleEntity;
 import com.anthony.product.model.entity.UserEntity;
@@ -22,51 +22,54 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     private final RoleService roleService;
     private final UserDetailsServiceImpl userDetailsService;
+    private static class Constant {
+        public static final String NUMBER = "12345678";
+    }
 
     @Transactional
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         // == create initial Role
-        var role_1 = createRoleIfNotFound(Role.ROLE_ADMIN);
-        var role_2 = createRoleIfNotFound(Role.ROLE_USER);
-        var role_3 = createRoleIfNotFound(Role.ROLE_MODERATOR);
-        var role_4 = createRoleIfNotFound(Role.ROLE_DIRECTOR);
-        var role_5 = createRoleIfNotFound(Role.ROLE_MANAGER);
-        var role_6 = createRoleIfNotFound(Role.ROLE_SUPPORT);
+        var role1 = createRoleIfNotFound(Role.ROLE_ADMIN);
+        var role2 = createRoleIfNotFound(Role.ROLE_USER);
+        var role3 = createRoleIfNotFound(Role.ROLE_MODERATOR);
+        var role4 = createRoleIfNotFound(Role.ROLE_DIRECTOR);
+        var role5 = createRoleIfNotFound(Role.ROLE_MANAGER);
+        var role6 = createRoleIfNotFound(Role.ROLE_SUPPORT);
 
         log.debug("These are roles created by default: "
-                + newLine() + role_1.toString() + newLine() + role_2.toString()
-                + newLine() + role_3.toString() + newLine() + role_4.toString()
-                + newLine() + role_5.toString() + newLine() + role_6.toString()
+                + newLine() + role1.toString() + newLine() + role2.toString()
+                + newLine() + role3.toString() + newLine() + role4.toString()
+                + newLine() + role5.toString() + newLine() + role6.toString()
         );
 
         // == create initial user
-        var user_1 = createUserIfNotFound(new SignupRequest("admin", "admin@gmail.com",
-                "12345678", Role.ROLE_ADMIN.name())
+        var user1 = createUserIfNotFound(new SignupRequest("admin", "admin@gmail.com",
+                Constant.NUMBER, Role.ROLE_ADMIN.name())
         );
-        var user_2 = createUserIfNotFound(new SignupRequest("user", "user@gmail.com",
-                "12345678", Role.ROLE_USER.name())
+        var user2 = createUserIfNotFound(new SignupRequest("user", "user@gmail.com",
+                Constant.NUMBER, Role.ROLE_USER.name())
         );
-        var user_3 = createUserIfNotFound(new SignupRequest("moderator", "moderator@gmail.com",
-                "12345678", Role.ROLE_MODERATOR.name())
+        var user3 = createUserIfNotFound(new SignupRequest("moderator", "moderator@gmail.com",
+                Constant.NUMBER, Role.ROLE_MODERATOR.name())
         );
 
         log.debug("These are roles created by default: "
-                + newLine() + user_1.toString() + newLine() + user_2.toString() + newLine() + user_3.toString()
+                + newLine() + user1.toString() + newLine() + user2.toString() + newLine() + user3.toString()
         );
 
     }
 
     @Transactional
-    RoleEntity createRoleIfNotFound(Role name) {
+    public RoleEntity createRoleIfNotFound(Role name) {
         var role = roleService.getRole(name);
         if (role.isEmpty()) return roleService.addRole(name);
         return role.get();
     }
 
     @Transactional
-    UserEntity createUserIfNotFound(SignupRequest request) {
+    public UserEntity createUserIfNotFound(SignupRequest request) {
         var user = userDetailsService.getUserByUsername(request.getUsername());
         if (user.isEmpty()) return userDetailsService.addUser(request);
         return user.get();

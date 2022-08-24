@@ -40,6 +40,8 @@ public class JwtUtils {
      */
     private static final int SHA_256_SECRET_CHAR_SIZE = 256 / 8;
 
+    private static final String EXCEPTION = "exception";
+
     @PostConstruct
     public void init() {
         //use default secretKey for SHA-256
@@ -134,10 +136,10 @@ public class JwtUtils {
             Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(authToken);
             return true;
         } catch (SecurityException ex) {
-            request.setAttribute("exception", ex);
+            request.setAttribute(EXCEPTION, ex);
             log.error("Invalid JWT signature trace: {}", ex.getMessage());
         } catch (MalformedJwtException ex) {
-            request.setAttribute("exception", ex);
+            request.setAttribute(EXCEPTION, ex);
             log.error("Invalid JWT token: {}", ex.getMessage());
         } catch (ExpiredJwtException ex) {
             log.error("JWT token is expired: {}", ex.getMessage());
@@ -147,14 +149,14 @@ public class JwtUtils {
             // allow for Refresh Token creation if following conditions are true.
             if (isRefreshToken != null && isRefreshToken.equals("true") && requestURL.contains("refreshtoken")) {
                 allowForRefreshToken(ex, request);
-            } else
-                request.setAttribute("exception", ex);
-            //request.setAttribute("exception", ex);
+            } else{
+                request.setAttribute(EXCEPTION, ex);
+            }
         } catch (UnsupportedJwtException ex) {
-            request.setAttribute("exception", ex);
+            request.setAttribute(EXCEPTION, ex);
             log.error("JWT token is unsupported: {}", ex.getMessage());
         } catch (IllegalArgumentException ex) {
-            request.setAttribute("exception", ex);
+            request.setAttribute(EXCEPTION, ex);
             log.error("JWT claims string is empty: {}", ex.getMessage());
         }
         return false;

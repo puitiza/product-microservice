@@ -1,12 +1,12 @@
 package com.anthony.product.model.mapper;
 
-import com.anthony.product.model.dto.AddressDto;
-import com.anthony.product.model.entity.AddressEntity;
+import com.anthony.product.model.dto.request.BookRequest;
+import com.anthony.product.model.entity.BookEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface AddressMapper {
+public interface BookMapper {
 
-    AddressEntity toAddressEntity(AddressDto source);
+    BookEntity toBookEntity(BookRequest source);
 }

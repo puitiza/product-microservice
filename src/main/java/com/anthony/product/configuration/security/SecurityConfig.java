@@ -61,7 +61,6 @@ public class SecurityConfig {
 //              Instead of disabling it, it is sufficient to set X-Frame-Options to SAME ORIGIN, for this use case.
                 .and()
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-                .csrf().disable()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler())
                 .authenticationEntryPoint(unauthorizedEntryPoint())
@@ -84,7 +83,6 @@ public class SecurityConfig {
                     .antMatchers(HttpMethod.POST, "/product").permitAll()
                     .antMatchers("/product/{id}").hasRole("ADMIN")
                     .antMatchers("/product/by-name/{name}").hasAnyRole("USER", "MODERATOR")
-//                  .antMatchers("/admin**").access("hasRole('ADMIN')")   //remember inside of hasRole function defaultRolePrefix = "ROLE_";
                     .anyRequest().authenticated();
 
 // 		Add a filter to validate the tokens with every request

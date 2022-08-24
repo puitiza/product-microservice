@@ -2,7 +2,7 @@ package com.anthony.product.component.exception.handler;
 
 public class NoSuchElementFoundException extends HandledException {
 
-    String code;
+    private final String code;
 
     public NoSuchElementFoundException(String message, String code) {
         super(message);

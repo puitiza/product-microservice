@@ -1,9 +1,10 @@
 package com.anthony.product.controller;
 
 import com.anthony.product.model.dto.AuthorBooksDto;
+import com.anthony.product.model.dto.request.AuthorRequest;
 import com.anthony.product.model.entity.AuthorEntity;
 import com.anthony.product.service.AuthorService;
-import com.anthony.product.util.Generic.StringGeneric;
+import com.anthony.product.util.generic.StringGeneric;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,7 +19,7 @@ public record AuthorController(AuthorService authorService) {
     }
 
     @PostMapping
-    public AuthorEntity addAuthor(@Valid @RequestBody AuthorEntity input) {
+    public AuthorEntity addAuthor(@Valid @RequestBody AuthorRequest input) {
         return authorService.addAuthor(input);
     }
 

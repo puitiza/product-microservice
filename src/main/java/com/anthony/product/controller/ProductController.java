@@ -4,8 +4,8 @@ import com.anthony.product.model.dto.ProductEmployeesDto;
 import com.anthony.product.model.dto.request.ProductRequest;
 import com.anthony.product.model.entity.ProductEntity;
 import com.anthony.product.service.ProductServiceImpl;
-import com.anthony.product.util.Generic.ProductGeneric;
-import com.anthony.product.util.Generic.StringGeneric;
+import com.anthony.product.util.generic.ProductGeneric;
+import com.anthony.product.util.generic.StringGeneric;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.anthony.product.model.templateDto.ExampleResponse.NOT_FOUND;
+import static com.anthony.product.model.template_dto.ExampleResponse.NOT_FOUND;
 
 @RestController
 @RequestMapping(value = "/product")

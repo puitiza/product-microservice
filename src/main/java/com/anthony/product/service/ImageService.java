@@ -1,26 +1,35 @@
 package com.anthony.product.service;
 
 import com.anthony.product.component.exception.handler.NoSuchElementFoundException;
+import com.anthony.product.component.exception.handler.UploadFileException;
+import com.anthony.product.model.dto.request.ImageRequest;
 import com.anthony.product.model.entity.ImageEntity;
+import com.anthony.product.model.mapper.ImageMapper;
 import com.anthony.product.repository.ImageRepository;
-import com.anthony.product.util.MessageSource.MessageSourceHandler;
+import com.anthony.product.util.message_source.MessageSourceHandler;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 import static com.anthony.product.component.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
+import static com.anthony.product.component.exception.errors.ProductExceptionErrors.UPLOAD_FILE_ERROR;
 
 @Service
-public record ImageService(ImageRepository imageRepository, MessageSourceHandler messageSource) {
+public record ImageService(ImageRepository imageRepository,
+                           MessageSourceHandler messageSource, ImageMapper imageMapper) {
 
-    public void updateProfilePicture(ImageEntity file)  {
+    public void updateProfilePicture(ImageRequest file)  {
+        var imageEntity = imageMapper.toImageEntity(file);
         if(file!= null){
             try {
-                file.setProfilePicBytes(file.getProfilePicImageFile().getBytes());
+                imageEntity.setProfilePicBytes(imageEntity.getProfilePicImageFile().getBytes());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new UploadFileException(
+                        messageSource.getLocalMessage(UPLOAD_FILE_ERROR.getKey()),
+                        messageSource.getLocalMessage(UPLOAD_FILE_ERROR.getKey())
+                );
             }
-            imageRepository.save(file);
+            imageRepository.save(imageEntity);
         }
     }
 

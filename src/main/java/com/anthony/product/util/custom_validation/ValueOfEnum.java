@@ -1,6 +1,6 @@
-package com.anthony.product.util.CustomValidation;
+package com.anthony.product.util.custom_validation;
 
-import lombok.ToString;
+import com.anthony.product.model.dto._enum.Role;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Constraint(validatedBy = ValueOfEnumValidator.class)
 public @interface ValueOfEnum {
-    Class<? extends Enum<?>> enumClass();
+    Class<Role> enumClass();
     String message() default "must be any of enum {enumClass}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

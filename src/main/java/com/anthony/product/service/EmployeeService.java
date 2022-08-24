@@ -1,19 +1,30 @@
 package com.anthony.product.service;
 
+import com.anthony.product.component.exception.handler.NoSuchElementFoundException;
+import com.anthony.product.model.dto.request.EmployeeRequest;
 import com.anthony.product.model.entity.EmployeeEntity;
+import com.anthony.product.model.mapper.EmployeeMapper;
 import com.anthony.product.repository.EmployeeRepository;
 import com.anthony.product.repository.ProductRatingRepository;
+import com.anthony.product.util.message_source.MessageSourceHandler;
 import org.springframework.stereotype.Service;
 
+import static com.anthony.product.component.exception.errors.ProductExceptionErrors.NO_ITEM_FOUND;
+
 @Service
-public record EmployeeService(EmployeeRepository repository, ProductRatingRepository ratingRepository) {
+public record EmployeeService(EmployeeRepository repository, ProductRatingRepository ratingRepository,
+                              MessageSourceHandler messageSource, EmployeeMapper employeeMapper) {
 
     public EmployeeEntity getEmployee(Long id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).orElseThrow(() -> new NoSuchElementFoundException(
+                messageSource.getLocalMessage(NO_ITEM_FOUND.getKey(), String.valueOf(id)),
+                messageSource.getLocalMessage(NO_ITEM_FOUND.getCode()))
+        );
     }
 
-    public EmployeeEntity addEmployee(EmployeeEntity employee) {
-        return repository.save(employee);
+    public EmployeeEntity addEmployee(EmployeeRequest employee) {
+        var employeeEntity = employeeMapper.toEmployeeEntity(employee);
+        return repository.save(employeeEntity);
     }
 
     /**
@@ -23,7 +34,6 @@ public record EmployeeService(EmployeeRepository repository, ProductRatingReposi
      */
     public void deleteEmployee(Long employeeId) {
         ratingRepository.deleteProductRatingByEmployeeId(employeeId);
-        var employee = getEmployee(employeeId);
-        repository.delete(employee);
+        repository.delete(getEmployee(employeeId));
     }
 }

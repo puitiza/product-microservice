@@ -1,4 +1,4 @@
-package com.anthony.product.configuration.interceptorLog.response;
+package com.anthony.product.configuration.interceptor_log.response;
 
 import com.anthony.product.component.log.LoggingService;
 import com.fasterxml.jackson.databind.ObjectMapper;

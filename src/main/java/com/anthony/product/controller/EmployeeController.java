@@ -1,8 +1,9 @@
 package com.anthony.product.controller;
 
+import com.anthony.product.model.dto.request.EmployeeRequest;
 import com.anthony.product.model.entity.EmployeeEntity;
 import com.anthony.product.service.EmployeeService;
-import com.anthony.product.util.Generic.StringGeneric;
+import com.anthony.product.util.generic.StringGeneric;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,7 +18,7 @@ public record EmployeeController(EmployeeService employeeService) {
     }
 
     @PostMapping
-    public EmployeeEntity addEmployee(@Valid @RequestBody EmployeeEntity input) {
+    public EmployeeEntity addEmployee(@Valid @RequestBody EmployeeRequest input) {
         return employeeService.addEmployee(input);
     }
 

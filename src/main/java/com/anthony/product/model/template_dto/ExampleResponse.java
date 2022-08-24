@@ -1,11 +1,11 @@
-package com.anthony.product.model.templateDto;
+package com.anthony.product.model.template_dto;
 
 /**
  * Swagger api documentation requires these classes to display json models of the responses.
  * Each class's javadoc is what Swagger will translate them into on the ui.
  */
-public class ExampleResponse {
-
+public final class ExampleResponse {
+    private ExampleResponse(){}
     public static final String OK = """
             {
               "data": {

@@ -1,8 +1,10 @@
 package com.anthony.product.service;
 
 import com.anthony.product.model.dto.AuthorBooksDto;
+import com.anthony.product.model.dto.request.AuthorRequest;
 import com.anthony.product.model.entity.AuthorEntity;
 import com.anthony.product.model.entity.BookEntity;
+import com.anthony.product.model.mapper.AuthorMapper;
 import com.anthony.product.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class AuthorService {
 
     private final AuthorRepository repository;
     private final BookService bookService;
+    private final AuthorMapper authorMapper;
 
     public AuthorEntity getAuthor(Long id) {
         return repository.findById(id).orElse(null);
@@ -30,7 +33,7 @@ public class AuthorService {
             BookEntity bookFound = bookService.getBook(request.getBookId());
 
             author.addBook(bookFound);
-            return addAuthor(author);
+            return repository.save(author);
         } else {
             //save new Book
             BookEntity bookCreated = new BookEntity();
@@ -39,12 +42,13 @@ public class AuthorService {
 
             //add and create new Book
             author.addBook(bookCreated);
-            return addAuthor(author);
+            return repository.save(author);
         }
     }
 
-    public AuthorEntity addAuthor(AuthorEntity authorDto) {
-        return repository.save(authorDto);
+    public AuthorEntity addAuthor(AuthorRequest authorDto) {
+        var authorEntity = authorMapper.toAuthorEntity(authorDto);
+        return repository.save(authorEntity);
     }
 
     /**
