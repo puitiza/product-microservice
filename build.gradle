@@ -14,30 +14,55 @@ jacoco {
     toolVersion = "0.8.8"
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        csv.enabled true
-        html.destination file("${buildDir}/reports/jacocoHtml")
-    }
-    dependsOn test // tests are required to run before generating the report
-}
-
 test {
     jacoco {
         destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
-        includes= ["com.anthony.*"]
+        includes = ["com.anthony.*"]
         classDumpDir = file("$buildDir/jacoco/classpathdumps")
     }
     useJUnitPlatform()
     finalizedBy jacocoTestReport // report is always generated after tests run
 }
 
+def jacocoExclusions = [
+        '**/configuration/**/ExceptionHandlerConfig.class',
+        '**/configuration/interceptor_log/**'
+]
+
+//Generates code coverage report for the test task.
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled true
+        html.destination file("${buildDir}/reports/jacocoHtml")
+    }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: jacocoExclusions
+            )
+        }))
+    }
+    doLast {// print the report url for easier access
+        println("file://${buildDir}/reports/jacocoHtml/index.html")
+    }
+    dependsOn test // tests are required to run before generating the report
+}
+
+//Verifies code coverage metrics based on specified rules for the test task.
 jacocoTestCoverageVerification {
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: jacocoExclusions
+            )
+        }))
+    }
     violationRules {
         rule {
+            excludes = jacocoExclusions
             limit {
-                minimum = 0.5
+                minimum = 0.90
             }
         }
     }
