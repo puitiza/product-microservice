@@ -12,8 +12,8 @@ public interface LibraryMapper {
     LibraryEntity toLibraryEntity(LibraryDto source, @Context AddressService service);
 
     @AfterMapping
-    default void findAddressEntity(LibraryDto source, @MappingTarget LibraryEntity target, @Context AddressService repository) {
-        var address = repository.getAddress(Long.valueOf(source.getAddressId()));
+    default void findAddressEntity(LibraryDto source, @MappingTarget LibraryEntity target, @Context AddressService service) {
+        var address = service.getAddress(Long.valueOf(source.getAddressId()));
         target.setAddress(address);
     }
 
