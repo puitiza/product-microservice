@@ -11,9 +11,9 @@ import javax.transaction.Transactional;
 public interface ProductRatingRepository extends JpaRepository<ProductRating, EmployeeProductKey> {
 
     @Transactional
-    void deleteProductRatingByProductId(long product_id);
+    void deleteProductRatingByProductId(long productId);
 
     @Transactional
-    void deleteProductRatingByEmployeeId(long employee_id);
+    void deleteProductRatingByEmployeeId(long employeeId);
 
 }

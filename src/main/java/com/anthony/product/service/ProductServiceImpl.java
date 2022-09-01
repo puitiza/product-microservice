@@ -8,7 +8,7 @@ import com.anthony.product.model.entity.ProductRating;
 import com.anthony.product.model.mapper.ProductMapper;
 import com.anthony.product.repository.ProductRatingRepository;
 import com.anthony.product.repository.ProductRepository;
-import com.anthony.product.util.MessageSource.MessageSourceHandler;
+import com.anthony.product.util.message_source.MessageSourceHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -46,7 +46,7 @@ public record ProductServiceImpl(ProductRepository repository, EmployeeService e
         var product = getProduct(productDto.getProductId());
         var employee = employeeService.getEmployee(productDto.getEmployeeId());
 
-        ProductRating productRating = new ProductRating(); //BookPublisher(b1, p2, new Date());
+        ProductRating productRating = new ProductRating();
         productRating.setProduct(product);
         productRating.setEmployee(employee);
         productRating.setRating(10);

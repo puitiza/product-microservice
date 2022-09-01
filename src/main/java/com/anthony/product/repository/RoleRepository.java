@@ -1,6 +1,6 @@
 package com.anthony.product.repository;
 
-import com.anthony.product.model.dto.Enum.Role;
+import com.anthony.product.model.dto._enum.Role;
 import com.anthony.product.model.entity.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

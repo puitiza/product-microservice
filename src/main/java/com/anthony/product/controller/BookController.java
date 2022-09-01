@@ -1,8 +1,9 @@
 package com.anthony.product.controller;
 
+import com.anthony.product.model.dto.request.BookRequest;
 import com.anthony.product.model.entity.BookEntity;
 import com.anthony.product.service.BookService;
-import com.anthony.product.util.Generic.StringGeneric;
+import com.anthony.product.util.generic.StringGeneric;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,7 +18,7 @@ public record BookController(BookService bookService) {
     }
 
     @PostMapping
-    public BookEntity addBook(@Valid @RequestBody BookEntity input) {
+    public BookEntity addBook(@Valid @RequestBody BookRequest input) {
         return bookService.addBook(input);
     }
 

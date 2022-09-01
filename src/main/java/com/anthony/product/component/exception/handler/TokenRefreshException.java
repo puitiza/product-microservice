@@ -2,7 +2,7 @@ package com.anthony.product.component.exception.handler;
 
 public class TokenRefreshException extends HandledException {
 
-    String code;
+    private final String code;
 
     public TokenRefreshException(String message, String code) {
         super(message);

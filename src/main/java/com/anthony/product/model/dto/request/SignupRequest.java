@@ -1,7 +1,7 @@
 package com.anthony.product.model.dto.request;
 
-import com.anthony.product.model.dto.Enum.Role;
-import com.anthony.product.util.CustomValidation.ValueOfEnum;
+import com.anthony.product.model.dto._enum.Role;
+import com.anthony.product.util.custom_validation.ValueOfEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

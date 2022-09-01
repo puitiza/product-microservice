@@ -1,10 +1,12 @@
 package com.anthony.product.service;
 
 import com.anthony.product.component.exception.handler.NoSuchElementFoundException;
+import com.anthony.product.model.dto.request.BookRequest;
 import com.anthony.product.model.entity.BookEntity;
 import com.anthony.product.model.entity.LibraryEntity;
+import com.anthony.product.model.mapper.BookMapper;
 import com.anthony.product.repository.BookRepository;
-import com.anthony.product.util.MessageSource.MessageSourceHandler;
+import com.anthony.product.util.message_source.MessageSourceHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ public class BookService {
 
     private final BookRepository repository;
     private final MessageSourceHandler messageSource;
+    private final BookMapper bookMapper;
 
     public BookEntity getBook(Long id) {
         return repository.findById(id).orElseThrow(() -> new NoSuchElementFoundException(
@@ -30,8 +33,13 @@ public class BookService {
         );
     }
 
-    public BookEntity addBook(BookEntity bookDto) {
-        return repository.save(bookDto);
+    public void addBook(BookEntity bookDto) {
+        repository.save(bookDto);
+    }
+
+    public BookEntity addBook(BookRequest bookDto) {
+        var bookEntity = bookMapper.toBookEntity(bookDto);
+        return repository.save(bookEntity);
     }
 
     public List<BookEntity> findByLibrary(LibraryEntity library) {
@@ -50,7 +58,7 @@ public class BookService {
 
         Optional.ofNullable(book.getLibrary())
                 .ifPresentOrElse(
-                        (value) -> {
+                        value -> {
                             book.removeLibrary(value);
                             repository.delete(book);
                         },

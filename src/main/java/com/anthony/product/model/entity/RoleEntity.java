@@ -1,6 +1,6 @@
 package com.anthony.product.model.entity;
 
-import com.anthony.product.model.dto.Enum.Role;
+import com.anthony.product.model.dto._enum.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;

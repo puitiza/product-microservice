@@ -6,7 +6,7 @@ import com.anthony.product.model.entity.AddressEntity;
 import com.anthony.product.model.mapper.AddressMapper;
 import com.anthony.product.repository.AddressRepository;
 import com.anthony.product.repository.LibraryRepository;
-import com.anthony.product.util.MessageSource.MessageSourceHandler;
+import com.anthony.product.util.message_source.MessageSourceHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -41,7 +41,7 @@ public record AddressService(AddressRepository repository, LibraryRepository lib
     public void deleteAddress(Long id) {
         var address = getAddress(id);
         Optional.ofNullable(address.getLibrary())
-                .ifPresent((value) -> {
+                .ifPresent(value -> {
                     value.setAddress(null);
                     address.setLibrary(null);
                     libraryRepository.save(value);

@@ -1,21 +1,90 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.0'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.7.3'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'jacoco'
+    id "org.sonarqube" version "3.4.0.2513"
 }
 
 group = 'com.anthony'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+test {
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        includes = ["com.anthony.*"]
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    }
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+def jacocoExclusions = [
+        '**/configuration/exception_handler/**',
+        '**/configuration/interceptor_log/**',
+        '**/*ProductApplication.java'
+]
+
+//Generates code coverage report for the test task.
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled true
+        html.destination file("${buildDir}/reports/jacocoHtml")
+    }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: jacocoExclusions
+            )
+        }))
+    }
+    doLast {// print the report url for easier access
+        println("file://${buildDir}/reports/jacocoHtml/index.html")
+    }
+    dependsOn test // tests are required to run before generating the report
+}
+
+//Verifies code coverage metrics based on specified rules for the test task.
+jacocoTestCoverageVerification {
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: jacocoExclusions
+            )
+        }))
+    }
+    violationRules {
+        rule {
+            excludes = jacocoExclusions
+            limit {
+                minimum = 0.90
+            }
+        }
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.login", "855dc43b0441a11a57af9c73cc6ade7f4a5949a7"
+        property "sonar.exclusions", jacocoExclusions
+        property "sonar.qualitygate.wait", true
+        property "sonar.verbose", true
+    }
+}
+
+tasks.named('sonarqube').configure {
+    dependsOn test
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
@@ -27,21 +96,23 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
     //  <!-- Starter for using Spring Security -->
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-	//  <!-- Database embedded -->
+    //  <!-- Database embedded -->
     implementation group: 'com.h2database', name: 'h2'
-	//  <!-- Start for international I18n  -->
+    //  <!-- Start for international I18n  -->
     implementation group: 'org.apache.commons', name: 'commons-lang3'
-	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
-	// 	<!-- This annotation is for get, setter, constructor  -->
+    implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+    // 	<!-- This annotation is for get, setter, constructor  -->
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-	// 	<!-- This annotation is useful for cast Object to Another  -->
-	implementation 'org.mapstruct:mapstruct:1.5.1.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
+    // 	<!-- This annotation is useful for cast Object to Another  -->
+    implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
     // 	<!-- Starter for UnitTest  -->
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
-	// 	<!-- JSON Web Token Support -->
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.7.3'
+    testImplementation group: 'org.mockito', name: 'mockito-inline', version: '2.7.21'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.10'
+    // 	<!-- JSON Web Token Support -->
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
 
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
@@ -50,8 +121,4 @@ dependencies {
         exclude group: 'org.json', module: 'json' //provided by Android natively
     }
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
 }
