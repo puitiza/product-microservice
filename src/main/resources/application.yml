@@ -33,7 +33,8 @@ spring:
 springdoc:
   writer-with-order-by-keys: true
 
-logging: #This configuration is to register inside the console just Info level and DEBUG trace
+#This configuration is to register inside the console just Info level and DEBUG trace
+logging:
   level:
     root: INFO
     com.anthony.product: DEBUG
