@@ -106,21 +106,56 @@ In your terminal
 
 - Run $ `docker build -t product-microservice .`
 
-  Make sure to include . at the end
+  Make sure to include **.** at the end
   
-  Here, -t simply means tag followed by ‘ name:tag ’ format, for example: product-microservice:1.
+  Here, **-t** simply means tag followed by ‘ name:tag ’ format, for example: product-microservice:1.
+
+  <img width=80% src="https://user-images.githubusercontent.com/24264799/188297522-97d1466e-06d1-4524-a402-b5e01c0498be.png">
+
   
 - Run Docker container using the image built
 
-  $ `docker run -d --name bootdocker -p 8080:8080 product-microservice`
+  $ `docker run -d --name product-ms -p 8080:8080 product-microservice`
 
-    -d means that we will start the container in a detached mode. It exits when the root process used to run the container exits.
+    **-d** means that we will start the container in a detached mode. It exits when the root process used to run the container exits.
 
-    -name assigns the name of the container.
+    **-name** assigns the name of the container.
 
-    -p exposes the container’s internal port. The format is -p hostPort:containerPort. The exposed container’s port can be directed through the specified host’s port. Thus, -p 8080:8080 binds the host’s 8080 port to the container’s internal 8080 port.
+    **-p** exposes the container’s internal port. The format is -p hostPort:containerPort. The exposed container’s port can be directed through the specified host’s port. Thus, -p 8080:8080 binds the host’s 8080 port to the container’s internal 8080 port.
 
-    product-microservice is the Image name along with the tag.
+    **product-microservice** is the Image name along with the tag.
+
+    <img width="1052" alt="image" src="https://user-images.githubusercontent.com/24264799/188297596-ab6524f1-ba5d-431e-8a79-aa57b5e3f9fa.png">
+
+-  You can also have a look at the log file to see if my application ran successfully using 
+    
+    $ `docker logs -f product-ms`
+
+    <img width=80%  src="https://user-images.githubusercontent.com/24264799/188303388-92c94916-9407-410f-832c-53dbd350c440.png">
+
+
+### ‍Publish your image in Dockerhub (Optional)
+
+1.  Run $ `docker login` and autenticathe with your credential, for password my suggestion is use token like in the image.
+
+    <img width=60% src="https://user-images.githubusercontent.com/24264799/188303703-76bd749c-7af6-4038-ab30-3791ed5f0a0b.png">
+
+    <img width=60% src="https://user-images.githubusercontent.com/24264799/188303677-eb40666b-8c46-446b-8fcb-f5b6145368e1.png">
+
+2. tag your local docker image to remote docker image: 
+
+   $ `docker tag product-microservice puitiza/product-microservice`
+   
+4. Now run the command to push to remote docker image to DockerHub Repository: 
+
+   $ `docker image push puitiza/product-microservice`
+
+   <img width=60% src="https://user-images.githubusercontent.com/24264799/188303967-32e1cfa9-51ed-4bbf-a935-ae8a56124e76.png">
+
+   
+   
+
+
 
 
 
