@@ -3,6 +3,9 @@ This is a personal project in order to understand better microservices,
 and it split by section and commits.
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+[![Build Status](https://github.com/javiertuya/samples-test-spring/actions/workflows/build.yml/badge.svg)](https://github.com/javiertuya/samples-test-spring/actions/workflows/build.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=my%3Asamples-test-spring&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=my%3Asamples-test-spring)
+[![Javadoc](https://img.shields.io/badge/%20-javadoc-blue)](https://javiertuya.github.io/samples-test-spring/)
 
 **H2 Browser console !** <a href="http://localhost:8080/h2-console" target="_blank" rel="noopener">http://localhost:8080/h2-console</a>
 
@@ -47,14 +50,14 @@ Spring Security Authentication process: receive HTTP request, filter, authentica
 
 In your terminal
 
-- Run `docker pull davealdon/sonarqube-with-docker-and-m1-macs`
+- Run $ `docker pull davealdon/sonarqube-with-docker-and-m1-macs`
 
   if you have on windonws OS:
   
-  Run `docker pull sonarqube:9.6-community`
+  Run $ `docker pull sonarqube:9.6-community`
 
   In both case we are using version 9.x of sonarqube because this project is for Java 17
-- Run `docker run -d --name sonarqube -p 9000:9000 -p 9092:9092 davealdon/sonarqube-with-docker-and-m1-macs`
+- Run $ `docker run -d --name sonarqube -p 9000:9000 -p 9092:9092 davealdon/sonarqube-with-docker-and-m1-macs`
 - Check in your navegator the addres <a href="http://localhost:9000" target="_blank" rel="noopener">http://localhost:9000</a>
 - User and Pasword are "admin"
 
@@ -72,9 +75,9 @@ In your terminal
   ```
 - Now you must to run a script for sonarqube in your terminal
 
-   Run `./gradlew test jacocoTestReport`  This is to create coverage of your code and then
+   Run $ `./gradlew test jacocoTestReport`  This is to create coverage of your code and then
   
-   Run `./gradlew sonarqube`  after this step you can see your project in sonarqube with sucessfull.
+   Run $ `./gradlew sonarqube`  after this step you can see your project in sonarqube with sucessfull.
 - The easiest way is to do it with gradle, only press in sonarqube like you can see below, but remember before build/clean.
 
 |   |  |
@@ -87,29 +90,62 @@ In your terminal
 
 if you want to see how much is the coverage verified, follow these steps
 
-1. Click in `clean project`
-2. Click in `jacocoTestReport`
-3. Click in `jacocoTestCoverageVerification`
+1. Click in $ `clean project`
+2. Click in $ `jacocoTestReport`
+3. Click in $ `jacocoTestCoverageVerification`
 
 |   |  |
 | --------  | -------- |
 |<img src="https://user-images.githubusercontent.com/24264799/187048754-7c5699cd-b4b0-47a6-9eb9-a8efd9ac7700.png">|<img src="https://user-images.githubusercontent.com/24264799/187048888-960727d6-4843-46df-9f00-fe675b784335.png">|
 
+## Dockerfile
 
+### ‍💻 Installation
+
+In your terminal
+
+- Run $ `docker build -t product-microservice .`
+
+  Make sure to include . at the end
+  
+  Here, -t simply means tag followed by ‘ name:tag ’ format, for example: product-microservice:1.
+  
+- Run Docker container using the image built
+
+  $ `docker run -d --name bootdocker -p 8080:8080 product-microservice`
+
+    -d means that we will start the container in a detached mode. It exits when the root process used to run the container exits.
+
+    -name assigns the name of the container.
+
+    -p exposes the container’s internal port. The format is -p hostPort:containerPort. The exposed container’s port can be directed through the specified host’s port. Thus, -p 8080:8080 binds the host’s 8080 port to the container’s internal 8080 port.
+
+    product-microservice is the Image name along with the tag.
+
+
+
+  
 
 # wiki
-- Sonarqube -> https://medium.com/@HoussemDellai/setup-sonarqube-in-a-docker-container-3c3908b624df
-- Jacoco -> https://medium.com/codex/software-engineering-done-right-2358ae0d6dd4
-- code Coverage (Sonarqube + Jacoco) -> https://tomgregory.com/how-to-measure-code-coverage-using-sonarqube-and-jacoco/
-- Junit 5 + Mockito -> https://www.freecodecamp.org/news/unit-testing-services-endpoints-and-repositories-in-spring-boot-4b7d9dc2b772/
 
-https://www.javaguides.net/2022/03/spring-boot-unit-testing-service-layer.html
+**Sonarqube** 
+- https://medium.com/@HoussemDellai/setup-sonarqube-in-a-docker-container-3c3908b624df
 
-https://howtodoinjava.com/spring-boot2/testing/spring-boot-mockito-junit-example/
+**Jacoco** 
+- https://medium.com/codex/software-engineering-done-right-2358ae0d6dd4
 
-https://stackabuse.com/guide-to-unit-testing-spring-boot-rest-apis/
+**code Coverage (Sonarqube + Jacoco)** 
+- https://tomgregory.com/how-to-measure-code-coverage-using-sonarqube-and-jacoco/
 
-https://www.baeldung.com/spring-mvc-test-exceptions
+**Junit 5 + Mockito** 
+- https://www.freecodecamp.org/news/unit-testing-services-endpoints-and-repositories-in-spring-boot-4b7d9dc2b772/
+- https://www.javaguides.net/2022/03/spring-boot-unit-testing-service-layer.html
+- https://howtodoinjava.com/spring-boot2/testing/spring-boot-mockito-junit-example/
+- https://stackabuse.com/guide-to-unit-testing-spring-boot-rest-apis/
+- https://www.baeldung.com/spring-mvc-test-exceptions
+
+**dockerfile** 
+- https://medium.com/geekculture/docker-basics-and-easy-steps-to-dockerize-spring-boot-application-17608a65f657
 
 # Contribution
 
