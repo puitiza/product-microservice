@@ -61,6 +61,7 @@ public class SecurityConfig {
 //              Instead of disabling it, it is sufficient to set X-Frame-Options to SAME ORIGIN, for this use case.
                 .and()
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+                .csrf().disable()
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler())
                 .authenticationEntryPoint(unauthorizedEntryPoint())
