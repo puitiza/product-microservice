@@ -152,13 +152,21 @@ In your terminal
 
    <img width=60% src="https://user-images.githubusercontent.com/24264799/188303967-32e1cfa9-51ed-4bbf-a935-ae8a56124e76.png">
 
+## Deploy in Kubernetes
+
+### ‍💻 Installation
    
-   
+1. Run in your terminal inside your project  $ `kubectl apply -f deployment.yaml`
 
+<img width="1824" alt="image" src="https://user-images.githubusercontent.com/24264799/188344933-6e67f2c5-f967-4d62-a6d3-f89a188a9ed2.png">
 
+List of comands:
+- $ `kubectl get nodes`       List of nodes in your cluster
+- $ `kubectl get pods`        List of pods in your cluster
+- $ `kubectl logs <podname>`  If you want to see logs
 
-
-
+- $ `kubectl get services`    List of services in your cluster
+- $ `kubectl get all`
   
 
 # wiki
@@ -181,6 +189,11 @@ In your terminal
 
 **dockerfile** 
 - https://medium.com/geekculture/docker-basics-and-easy-steps-to-dockerize-spring-boot-application-17608a65f657
+
+
+**Kubernetes**
+- https://dzone.com/articles/spring-boot-with-kubernetes
+- https://medium.com/@ahmedyosry963/kubernetes-in-your-local-environment-d63e62c3b5f
 
 # Contribution
 
