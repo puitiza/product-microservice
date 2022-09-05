@@ -189,10 +189,12 @@ List of comands:
 
 **dockerfile** 
 - https://medium.com/geekculture/docker-basics-and-easy-steps-to-dockerize-spring-boot-application-17608a65f657
+- https://www.baeldung.com/dockerizing-spring-boot-application
 
 
 **Kubernetes**
 - https://dzone.com/articles/spring-boot-with-kubernetes
+- https://andrewlock.net/running-kubernetes-and-the-dashboard-with-docker-desktop/
 - https://medium.com/@ahmedyosry963/kubernetes-in-your-local-environment-d63e62c3b5f
 
 # Contribution
