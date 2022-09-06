@@ -196,6 +196,7 @@ List of comands:
 - https://dzone.com/articles/spring-boot-with-kubernetes
 - https://andrewlock.net/running-kubernetes-and-the-dashboard-with-docker-desktop/
 - https://medium.com/@ahmedyosry963/kubernetes-in-your-local-environment-d63e62c3b5f
+- https://medium.com/@dijin123/kubernetes-and-the-ui-dashboard-with-docker-desktop-5ad4799b3b61
 
 # Contribution
 
