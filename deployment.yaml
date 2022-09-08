@@ -1,33 +1,50 @@
-apiVersion: v1                        # Kubernetes API version
-kind: Service                         # Kubernetes' resource kind we are creating
-metadata:
-  name: product-ms-k8s
-spec:
-  selector:
-    app: product-ms-k8s
-  ports:
-    - protocol: "TCP"
-      port: 8080                      # The port that the service is running on in the cluster
-      targetPort: 8080                # The port exposed by the service
-  type: LoadBalancer                  # type of the service. LoadBalancer indicates that our service will be external
 ---
-apiVersion: apps/v1                   # Kubernetes API version
-kind: Deployment                      # Kubernetes' resource kind we are creating
+# Create a Kubernetes namespace
+apiVersion: v1
+kind: Namespace
 metadata:
-  name: product-ms-k8s
+  name: springboot-product-ms
+
+---
+# Application to deploy
+apiVersion: apps/v1  # Kubernetes API version
+kind: Deployment     # Kubernetes' resource kind we are creating
+metadata:
+  name: product-ms-k8s-deployment
+  namespace: springboot-product-ms
+  labels:
+    app: product-ms-k8s-deployment
 spec:
-  selector:
-    matchLabels:
-      app: product-ms-k8s
-  replicas: 2                         # Number of replicas that will be created for this deployment
+  replicas: 2 # Number of replicas that will be created for this deployment
   template:
     metadata:
+      name: product-ms-k8s-deployment
       labels:
-        app: product-ms-k8s
+        app: product-ms-k8s-deployment
     spec:
       containers:
-        - name: product-ms-k8s
-          image: product-microservice # Image that will be used to containers in the cluster
+        - name: product-ms-k8s-deployment
+          image: product-microservice  # Image that will be used to containers in the cluster
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080     # The port that the container is running on in the cluster
+            - containerPort: 8080      # The port that the container is running on in the cluster
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: product-ms-k8s-deployment
+
+---
+# Service to expose frontend
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-ms-k8s-service
+  namespace: springboot-product-ms
+spec:
+  selector:
+    app: product-ms-k8s-deployment
+  ports:
+    - protocol: TCP
+      port: 8080        # The port that the service is running on in the cluster
+      targetPort: 8080  # The port exposed by the service
+  type: LoadBalancer    # The type indicates that our service will be external in this case localhost
