@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-ms-k8s-deployment
+  namespace: springboot-product-ms
+  labels:
+    app: product-ms-k8s-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: product-ms-k8s-deployment
+      labels:
+        app: product-ms-k8s-deployment
+    spec:
+      containers:
+        - name: product-ms-k8s-deployment
+          image: product-microservice
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: product-ms-k8s-deployment
