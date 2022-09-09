@@ -143,34 +143,85 @@ In your terminal
     <img width=60% src="https://user-images.githubusercontent.com/24264799/188303677-eb40666b-8c46-446b-8fcb-f5b6145368e1.png">
 
 2. tag your local docker image to remote docker image: 
-
-   $ `docker tag product-microservice puitiza/product-microservice`
    
-4. Now run the command to push to remote docker image to DockerHub Repository: 
+```bash
+docker tag product-microservice puitiza/product-microservice
+```
+   
+3. Now run the command to push to remote docker image to DockerHub Repository: 
+   
+```bash
+docker image push puitiza/product-microservice
+```
 
-   $ `docker image push puitiza/product-microservice`
+<img width=60% src="https://user-images.githubusercontent.com/24264799/188303967-32e1cfa9-51ed-4bbf-a935-ae8a56124e76.png">
 
-   <img width=60% src="https://user-images.githubusercontent.com/24264799/188303967-32e1cfa9-51ed-4bbf-a935-ae8a56124e76.png">
 
 ## Deploy in Kubernetes
 
 ### ‍💻 Installation
-   
-1. Run in your terminal inside your project  $ `kubectl apply -f deployment.yaml`
+  
+1. Enable kubernetes on your docker desktop and after that you can use Lens Desktop for Ide
 
-<img width="1824" alt="image" src="https://user-images.githubusercontent.com/24264799/188344933-6e67f2c5-f967-4d62-a6d3-f89a188a9ed2.png">
+  |   |  |
+  | --------  | -------- |
+  |<img src="https://user-images.githubusercontent.com/24264799/189266942-af946b34-7220-45fe-a3f9-e41c10596cd8.png">|<img src="https://user-images.githubusercontent.com/24264799/189267884-98dd0d6e-c6ea-448e-ac58-eae1718501ef.png">|
+
+
+  
+2. Run in your terminal inside your project  $ `kubectl apply -f deployment.yaml` or you can do also by kubernetes plugin on Intellij Idea
+
+  |   |  |
+  | --------  | -------- |
+  |<img src="https://user-images.githubusercontent.com/24264799/189163451-483aab36-644a-4739-a705-b6e93bf3358c.png">|<img src="https://user-images.githubusercontent.com/24264799/188344933-6e67f2c5-f967-4d62-a6d3-f89a188a9ed2.png">|
+
+3. By default the metrics is not able in lens IDE with prometheus so you need to able it before. Run these commands in your terminal in this order
+
+```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+```
+```
+helm repo update
+```
+```
+kubectl create namespace monitoring
+```
+```
+helm install prometheus --namespace monitoring prometheus-community/kube-prometheus-stack --set nodeExporter.hostRootfs=false
+```
+In my case, The first time I ran only this cmd but Now I know that I have to add {--set ...}
+```
+helm install prometheus --namespace monitoring prometheus-community/kube-prometheus-stack
+```
+ If it doesn't work follow the steps I put here 
+ <a href="https://github.com/prometheus-community/helm-charts/issues/467#issuecomment-1241426318" target="_blank" rel="noopener">node-exporter crashes at startup</a>
+
+<img width=70% alt="image" src="https://user-images.githubusercontent.com/24264799/189272575-71cd6d5a-ed10-48b3-8f9e-040712a4d43f.png">
+
 
 List of comands:
 - $ `kubectl get nodes`       List of nodes in your cluster
 - $ `kubectl get pods`        List of pods in your cluster
 - $ `kubectl logs <podname>`  If you want to see logs
 
-- $ `kubectl get services`    List of services in your cluster
-- $ `kubectl get all`
+- $ `kubectl get svc`    List of services in your cluster
+- $ `kubectl get namespaces <name>`   get the summary of a specific namespace using
+- $ `kubectl port-forward -n monitoring service/prometheus-grafana 3000:80` Expose this service http://localhost:3000
+- $ `kubectl get secret -n monitoring prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo` 
+Expose password : prom-operator, and for user: admin. Also you can see this secret with your Lens Desktop
+
+
+# Contribution
+
+- Report issues
+- Open pull request with improvements
+- Spread the word
+- Reach out to me directly at <anthony.puitiza.02@gmail.com>
+
+<details>
+  <summary><b>🔗 wiki</b></summary>
   
-
-# wiki
-
+  
 **Sonarqube** 
 - https://medium.com/@HoussemDellai/setup-sonarqube-in-a-docker-container-3c3908b624df
 
@@ -191,16 +242,11 @@ List of comands:
 - https://medium.com/geekculture/docker-basics-and-easy-steps-to-dockerize-spring-boot-application-17608a65f657
 - https://www.baeldung.com/dockerizing-spring-boot-application
 
-
 **Kubernetes**
 - https://dzone.com/articles/spring-boot-with-kubernetes
 - https://andrewlock.net/running-kubernetes-and-the-dashboard-with-docker-desktop/
 - https://medium.com/@ahmedyosry963/kubernetes-in-your-local-environment-d63e62c3b5f
 - https://medium.com/@dijin123/kubernetes-and-the-ui-dashboard-with-docker-desktop-5ad4799b3b61
-
-# Contribution
-
-- Report issues
-- Open pull request with improvements
-- Spread the word
-- Reach out to me directly at <anthony.puitiza.02@gmail.com>
+- https://kubernetes.io/docs/tasks/administer-cluster/namespaces/
+- https://www.youtube.com/watch?v=zW-E8THfvPY
+  </details>
