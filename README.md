@@ -133,6 +133,14 @@ In your terminal
 
     <img width=80%  src="https://user-images.githubusercontent.com/24264799/188303388-92c94916-9407-410f-832c-53dbd350c440.png">
 
+-  You can see ip from some container with these 2 cmds
+
+    $ `docker ps`
+  
+    $ `docker inspect <IdContainer> | grep "IPAddress"`
+  
+    <img width=80% src="https://user-images.githubusercontent.com/24264799/189508111-77c7c765-01d7-482f-963b-2c563e28ee6e.png">
+
 
 ### ‍Publish your image in Dockerhub (Optional)
 
