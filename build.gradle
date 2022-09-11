@@ -87,6 +87,11 @@ repositories {
     mavenCentral()
 }
 
+//Spring Boot by default generates plain.jar file. with this cmd I can remove it
+jar {
+    enabled = false
+}
+
 dependencies {
     //	<!-- Setup Spring Boot -->
     implementation 'org.springframework.boot:spring-boot-starter-web'
