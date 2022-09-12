@@ -12,7 +12,7 @@ permissions:
 
 #This is a variable of min-coverage
 env:
-  PERCENTAGE: 60
+  PERCENTAGE: 60.0
 
 jobs:
   build:
@@ -43,5 +43,15 @@ jobs:
         min-coverage-overall: ${{ env.PERCENTAGE }}
         min-coverage-changed-files: 60
         
-
+    - name: Get the Coverage info
+      run: |
+        echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
+        echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
+        
+    - name: Fail PR if overall coverage is less than $PERCENTAGE%
+      if: ${{ steps.jacoco.outputs.coverage-overall < env.PERCENTAGE }}
+      uses: actions/github-script@v6
+      with:
+        script: |
+          core.setFailed('Overall coverage is less than 80%!')
   
