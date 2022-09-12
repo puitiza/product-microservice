@@ -1,0 +1,5 @@
+# App Properties
+app:
+  jwt:
+    refreshExpirationDateInMs: 10
+    detail: "This is a custom detail"
