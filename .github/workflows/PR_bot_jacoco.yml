@@ -48,7 +48,7 @@ jobs:
         echo "Total coverage ${{ steps.jacoco.outputs.coverage-overall }}"
         echo "Changed Files coverage ${{ steps.jacoco.outputs.coverage-changed-files }}"
         
-    - name: Fail PR if overall coverage is less than $PERCENTAGE%
+    - name: Fail PR if overall coverage is less than ${{ env.PERCENTAGE }}%
       if: ${{ steps.jacoco.outputs.coverage-overall < env.PERCENTAGE }}
       uses: actions/github-script@v6
       with:
