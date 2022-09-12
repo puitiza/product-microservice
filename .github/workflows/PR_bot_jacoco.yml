@@ -12,7 +12,7 @@ permissions:
 
 #This is a variable of min-coverage
 env:
-  percentage: 80.0
+  percentage: 60
 
 jobs:
   build:
@@ -40,7 +40,7 @@ jobs:
       with:
         paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
         token: ${{ secrets.GH_TOKEN }}
-    #    min-coverage-overall: ${{ env.PERCENTAGE }}
+        min-coverage-overall: ${{ env.PERCENTAGE }}
         min-coverage-changed-files: 60
         
 
