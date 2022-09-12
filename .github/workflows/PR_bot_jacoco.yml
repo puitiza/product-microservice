@@ -12,7 +12,7 @@ permissions:
 
 #This is a variable of min-coverage
 env:
-  PERCENTAGE: 60.0
+  PERCENTAGE: 40.0
 
 jobs:
   build:
@@ -53,5 +53,5 @@ jobs:
       uses: actions/github-script@v6
       with:
         script: |
-          core.setFailed('Overall coverage is less than 80%!')
+          core.setFailed('Overall coverage is less than ${{ env.PERCENTAGE }}%!')
   
