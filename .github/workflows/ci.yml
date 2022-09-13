@@ -38,21 +38,8 @@ jobs:
         tags: latest
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}    
-        
-  sonarqube:
-    name: SonarQube Trigger
-    runs-on: ubuntu-latest
-    steps:
-    - name: Build
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: build
-    - name: Checking out
-      uses: actions/checkout@v3
-      with:
-        # Disabling shallow clone is recommended for improving relevancy of reporting
-        fetch-depth: 0
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
     - name: SonarQube Scan
       uses: kitabisa/sonarqube-action@v1.2.0
       with:
