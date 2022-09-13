@@ -44,6 +44,86 @@ There are three important parts of a JWT: Header, Payload, Signature. Together t
 
 Spring Security Authentication process: receive HTTP request, filter, authenticate, store Authentication data, generate token, get User details, authorize, handle exception…
 
+## Dockerfile
+
+### ‍💻 Installation
+
+In your terminal
+
+- Run $ `docker build -t product-microservice .`
+
+  Make sure to include **.** at the end
+  
+  Here, `-t` simply means tag followed by ‘ name:tag ’ format, for example: product-microservice:1.
+
+  <img width=80% src="https://user-images.githubusercontent.com/24264799/188297522-97d1466e-06d1-4524-a402-b5e01c0498be.png">
+
+  
+- Run Docker container using the image built
+
+  $ `docker run -d --name product-ms -p 8080:8080 product-microservice`
+
+    `-d` means that we will start the container in a detached mode. It exits when the root process used to run the container exits.
+
+    `-name` assigns the name of the container.
+
+    `-p` exposes the container’s internal port. The format is -p hostPort:containerPort. The exposed container’s port can be directed through the specified host’s port. Thus, -p 8080:8080 binds the host’s 8080 port to the container’s internal 8080 port.
+
+    `product-microservice` is the Image name along with the tag.
+
+    <img width="1052" alt="image" src="https://user-images.githubusercontent.com/24264799/188297596-ab6524f1-ba5d-431e-8a79-aa57b5e3f9fa.png">
+
+-  You can also have a look at the log file to see if my application ran successfully using 
+    
+    $ `docker logs -f product-ms`
+
+    <img width=80%  src="https://user-images.githubusercontent.com/24264799/188303388-92c94916-9407-410f-832c-53dbd350c440.png">
+
+-  You can see ip from some container with these 2 cmds
+
+    $ `docker ps`
+  
+    $ `docker inspect <IdContainer> | grep "IPAddress"`
+  
+    <img width=80% src="https://user-images.githubusercontent.com/24264799/189508111-77c7c765-01d7-482f-963b-2c563e28ee6e.png">
+
+
+### ‍Publish your image in Dockerhub (Optional)
+
+1.  Run $ `docker login` and autenticathe with your credential, for password my suggestion is use token like in the image.
+
+    <img width=60% src="https://user-images.githubusercontent.com/24264799/188303703-76bd749c-7af6-4038-ab30-3791ed5f0a0b.png">
+
+    <img width=60% src="https://user-images.githubusercontent.com/24264799/188303677-eb40666b-8c46-446b-8fcb-f5b6145368e1.png">
+
+2. tag your local docker image to remote docker image: 
+   
+```bash
+docker tag product-microservice puitiza/product-microservice
+```
+   
+3. Now run the command to push to remote docker image to DockerHub Repository: 
+   
+```bash
+docker image push puitiza/product-microservice
+```
+
+<img width=60% src="https://user-images.githubusercontent.com/24264799/188303967-32e1cfa9-51ed-4bbf-a935-ae8a56124e76.png">
+
+## Unit Test Junit5 + Mockito - Jacoco
+
+### ‍💻 Installation
+
+if you want to see how much is the coverage verified, follow these steps
+
+1. Click in $ `clean project`
+2. Click in $ `jacocoTestReport`
+3. Click in $ `jacocoTestCoverageVerification`
+
+|   |  |
+| --------  | -------- |
+|<img src="https://user-images.githubusercontent.com/24264799/187048754-7c5699cd-b4b0-47a6-9eb9-a8efd9ac7700.png">|<img src="https://user-images.githubusercontent.com/24264799/187048888-960727d6-4843-46df-9f00-fe675b784335.png">|
+
 ## Sonarqube/PostgreSQL in Apple M1 Chip or Windows
 
 ### ‍💻 Installation
@@ -84,85 +164,33 @@ In your terminal
 | --------  | -------- |
 |<img src="https://user-images.githubusercontent.com/24264799/186272202-d4affd86-0692-44ea-8a61-c47fd1bdb7ad.png">|<img src="https://user-images.githubusercontent.com/24264799/186266110-eae20b83-efae-4138-8a44-414beeaf8b6b.png">|
 
-## Unit Test Junit5 + Mockito - Jacoco
+## Expose your services with NGROK
 
 ### ‍💻 Installation
-
-if you want to see how much is the coverage verified, follow these steps
-
-1. Click in $ `clean project`
-2. Click in $ `jacocoTestReport`
-3. Click in $ `jacocoTestCoverageVerification`
-
-|   |  |
-| --------  | -------- |
-|<img src="https://user-images.githubusercontent.com/24264799/187048754-7c5699cd-b4b0-47a6-9eb9-a8efd9ac7700.png">|<img src="https://user-images.githubusercontent.com/24264799/187048888-960727d6-4843-46df-9f00-fe675b784335.png">|
-
-## Dockerfile
-
-### ‍💻 Installation
-
-In your terminal
-
-- Run $ `docker build -t product-microservice .`
-
-  Make sure to include **.** at the end
   
-  Here, **-t** simply means tag followed by ‘ name:tag ’ format, for example: product-microservice:1.
+- You can download Ngrok by exec or image on Docker. https://hub.docker.com/r/ngrok/ngrok
 
-  <img width=80% src="https://user-images.githubusercontent.com/24264799/188297522-97d1466e-06d1-4524-a402-b5e01c0498be.png">
+this is the easiest way to pull up ngrok service as image
 
-  
-- Run Docker container using the image built
-
-  $ `docker run -d --name product-ms -p 8080:8080 product-microservice`
-
-    **-d** means that we will start the container in a detached mode. It exits when the root process used to run the container exits.
-
-    **-name** assigns the name of the container.
-
-    **-p** exposes the container’s internal port. The format is -p hostPort:containerPort. The exposed container’s port can be directed through the specified host’s port. Thus, -p 8080:8080 binds the host’s 8080 port to the container’s internal 8080 port.
-
-    **product-microservice** is the Image name along with the tag.
-
-    <img width="1052" alt="image" src="https://user-images.githubusercontent.com/24264799/188297596-ab6524f1-ba5d-431e-8a79-aa57b5e3f9fa.png">
-
--  You can also have a look at the log file to see if my application ran successfully using 
-    
-    $ `docker logs -f product-ms`
-
-    <img width=80%  src="https://user-images.githubusercontent.com/24264799/188303388-92c94916-9407-410f-832c-53dbd350c440.png">
-
--  You can see ip from some container with these 2 cmds
-
-    $ `docker ps`
-  
-    $ `docker inspect <IdContainer> | grep "IPAddress"`
-  
-    <img width=80% src="https://user-images.githubusercontent.com/24264799/189508111-77c7c765-01d7-482f-963b-2c563e28ee6e.png">
-
-
-### ‍Publish your image in Dockerhub (Optional)
-
-1.  Run $ `docker login` and autenticathe with your credential, for password my suggestion is use token like in the image.
-
-    <img width=60% src="https://user-images.githubusercontent.com/24264799/188303703-76bd749c-7af6-4038-ab30-3791ed5f0a0b.png">
-
-    <img width=60% src="https://user-images.githubusercontent.com/24264799/188303677-eb40666b-8c46-446b-8fcb-f5b6145368e1.png">
-
-2. tag your local docker image to remote docker image: 
-   
-```bash
-docker tag product-microservice puitiza/product-microservice
 ```
-   
-3. Now run the command to push to remote docker image to DockerHub Repository: 
-   
-```bash
-docker image push puitiza/product-microservice
+ docker run --name ngrok_tmp --rm -it --net=host -e NGROK_AUTHTOKEN=<token_ngrok> ngrok/ngrok http 9000
 ```
 
-<img width=60% src="https://user-images.githubusercontent.com/24264799/188303967-32e1cfa9-51ed-4bbf-a935-ae8a56124e76.png">
+`--rm` means that Remove the container what we created when this is stopped
+
+`--net=host` means that we can use 'ngrok http <id_port>' example 'ngrok http 9000' otherwise we would have to use this form 
+'ngrok http host.docker.internal:9000'
+ 
+if you want to see thus the inspect of ngrok , so needs to expose the port by default, after run cmd you can see http://localhost:3000/inspect/http
+
+```
+docker run --name ngrok_tmp --rm -it -p 3000:4040 -e NGROK_AUTHTOKEN=<token_ngrok> ngrok/ngrok http host.docker.internal:9000
+```
+
+The purpose of this is to expose locally running sonarqube to the internet and then configure it on cd/ci.
+
+<img width="1504" alt="image" src="https://user-images.githubusercontent.com/24264799/189812974-e9ad53cd-b315-40f3-ae26-a0596ef74cfe.png">
+<img width="1588" alt="image" src="https://user-images.githubusercontent.com/24264799/189819886-f5752de6-cf32-4958-b4d8-25b65c101bd1.png">
 
 
 ## Deploy in Kubernetes
@@ -249,6 +277,10 @@ Expose password : prom-operator, and for user: admin. Also you can see this secr
 **dockerfile** 
 - https://medium.com/geekculture/docker-basics-and-easy-steps-to-dockerize-spring-boot-application-17608a65f657
 - https://www.baeldung.com/dockerizing-spring-boot-application
+
+**ngrok** 
+- https://chriskirby.net/blog/using-ngrok-through-docker-for-local-service-development-on-mac
+- https://tech.osteel.me/posts/docker-for-local-web-development-part-6-expose-a-local-container-to-the-internet
 
 **Kubernetes**
 - https://dzone.com/articles/spring-boot-with-kubernetes
