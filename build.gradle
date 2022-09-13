@@ -77,6 +77,8 @@ sonarqube {
         property "sonar.projectKey", "$project.group:$project.name"
         property "sonar.qualitygate.wait", true
         property "sonar.verbose", true
+        property "sonar.java.source", 17
+        property "sonar.java.binaries", "build/classes"
     }
 }
 
