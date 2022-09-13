@@ -78,7 +78,7 @@ sonarqube {
         property "sonar.qualitygate.wait", true
         property "sonar.verbose", true
         property "sonar.java.source", 17
-        property "sonar.java.binaries", "build/classes"
+        property "sonar.java.binaries", "${buildDir}/classes"
     }
 }
 
