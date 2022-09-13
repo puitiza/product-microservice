@@ -44,6 +44,10 @@ jobs:
     name: SonarQube Trigger
     runs-on: ubuntu-latest
     steps:
+    - name: Build
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: build
     - name: Checking out
       uses: actions/checkout@v3
       with:
