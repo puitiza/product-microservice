@@ -28,5 +28,3 @@ jobs:
           args: >
             -Dsonar.java.binaries=build/classes
             -Dsonar.projectKey=com.anthony:product
-            -Dsonar.sources=src/main/java
-            -Dsonar.tests=src/test
