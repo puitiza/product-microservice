@@ -76,9 +76,6 @@ sonarqube {
         property "sonar.exclusions", jacocoExclusions
         property "sonar.qualitygate.wait", true
         property "sonar.verbose", true
-        property "sonar.projectKey", "$project.group:$project.name"
-        property "sonar.sources", "src/main/java"
-        property "sonar.tests", "src/test"
     }
 }
 
