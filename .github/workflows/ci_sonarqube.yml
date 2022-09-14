@@ -30,6 +30,6 @@ jobs:
             -Dsonar.sources=src/main/java
             -Dsonar.tests=src/test
             -Dsonar.java.binaries=build/classes
-            -Dsonar.exclusions=**/configuration/exception_handler/** , **/configuration/interceptor_log/** , **/*ProductApplication.java
+            -Dsonar.exclusions="**/configuration/exception_handler/** , **/configuration/interceptor_log/** , **/*ProductApplication.java"
             -Dsonar.qualitygate.wait=true
             -Dsonar.verbose=true
