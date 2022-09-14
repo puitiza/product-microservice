@@ -29,9 +29,10 @@ jobs:
             -Dsonar.projectKey=com.anthony:product
             -Dsonar.sources=src/main/java
             -Dsonar.tests=src/test
-            -Dsonar.java.binaries=build/classes
-            -Dsonar.exclusions=**/configuration/exception_handler/**,**/configuration/interceptor_log/**,**/*ProductApplication.java
             -Dsonar.qualitygate.wait=true
             -Dsonar.verbose=true
+            -Dsonar.sourceEncoding=UTF-8
+            -Dsonar.exclusions=**/configuration/exception_handler/**,**/configuration/interceptor_log/**,**/*ProductApplication.java
             -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
-            -Dsonar.java.libraries.empty=true
+            -Dsonar.java.binaries=build/classes
+            -Dsonar.java.libraries=build/classes
