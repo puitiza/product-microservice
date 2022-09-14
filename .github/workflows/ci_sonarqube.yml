@@ -27,3 +27,4 @@ jobs:
         with:
           args: >
             -Dsonar.java.binaries=build/classes
+            -Dsonar.java.projectKey=com.anthony:product
