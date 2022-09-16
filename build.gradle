@@ -82,6 +82,18 @@ sonarqube {
 tasks.named('sonarqube').configure {
     dependsOn test
 }
+/*
+task jarWithDeps(dependsOn: 'jar', type: Copy) {
+    def conf = configurations.runtimeClasspath
+    from conf.allDependencies.collect { conf.files(it) }
+    into "${project.buildDir}/libs"
+}*/
+
+task copyAllDependencies(type: Copy) {
+    from configurations.compileClasspath
+    into "${buildDir}/output/libs"
+}
+build.dependsOn(copyAllDependencies)
 
 repositories {
     mavenCentral()

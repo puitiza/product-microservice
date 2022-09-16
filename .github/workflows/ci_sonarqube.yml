@@ -35,4 +35,4 @@ jobs:
             -Dsonar.exclusions=**/configuration/exception_handler/**,**/configuration/interceptor_log/**,**/*ProductApplication.java
             -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/test/jacocoTestReport.xml
             -Dsonar.java.binaries=build/classes
-            -Dsonar.java.libraries=**/*.jar
+            -Dsonar.java.libraries=build/output/libs
