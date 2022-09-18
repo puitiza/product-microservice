@@ -88,7 +88,7 @@ In your terminal
     <img width=80% src="https://user-images.githubusercontent.com/24264799/189508111-77c7c765-01d7-482f-963b-2c563e28ee6e.png">
 
 
-### ‍Publish your image in Dockerhub (Optional)
+## ‍Publish your image in Dockerhub (Optional)
 
 1.  Run $ `docker login` and autenticathe with your credential, for password my suggestion is use token like in the image.
 
@@ -110,7 +110,7 @@ docker image push puitiza/product-microservice
 
 <img width=60% src="https://user-images.githubusercontent.com/24264799/188303967-32e1cfa9-51ed-4bbf-a935-ae8a56124e76.png">
 
-## Unit Test Junit5 + Mockito - Jacoco
+# Unit Test Junit5 + Mockito - Jacoco
 
 ## ‍💻 Installation
 
