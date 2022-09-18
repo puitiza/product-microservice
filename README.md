@@ -33,7 +33,7 @@ spring:
 ```
 
 
-#  **JWT (JSON Web Token)**
+# **JWT (JSON Web Token)**
 
 JWT is popular for Authentication and Information Exchange. Server encodes data into a JSON Web Token and send it to the Client. The Client saves the JWT, then every Request from Client to protected routes or resources should be attached that JWT (commonly at header). The Server will validate that JWT and return the Response.
 
