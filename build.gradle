@@ -74,7 +74,6 @@ sonarqube {
         property "sonar.host.url", "http://localhost:9000"
         property "sonar.login", "855dc43b0441a11a57af9c73cc6ade7f4a5949a7"
         property "sonar.exclusions", jacocoExclusions
-        property "sonar.projectKey", "$project.group:$project.name"
         property "sonar.qualitygate.wait", true
         property "sonar.verbose", true
     }
@@ -83,6 +82,13 @@ sonarqube {
 tasks.named('sonarqube').configure {
     dependsOn test
 }
+
+
+task copyAllDependencies(type: Copy) {
+    from configurations.compileClasspath
+    into "${buildDir}/output/libs"
+}
+build.dependsOn(copyAllDependencies)
 
 repositories {
     mavenCentral()
